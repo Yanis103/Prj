@@ -8,10 +8,7 @@ import java.awt.event.ActionListener;
 public class GestionProjetsApp extends JFrame {
     private JButton studentButton, formationButton, projectButton, binomeButton;
     private JLabel titleLabel;
-    private StudentApp studentApp;
-    
 
-    
     public GestionProjetsApp() {
         setTitle("Gestion des Projets Étudiants");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,19 +42,12 @@ public class GestionProjetsApp extends JFrame {
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-       
-        
+
         button.addActionListener(new ActionListener() {
-        	 
             @Override
             public void actionPerformed(ActionEvent e) {
-            	studentApp = new StudentApp();
-                studentApp.setVisible(false);
                 if (button.getText().equals("Étudiants")) {
-                	
-                    
-
+                    new StudentApp().setVisible(true);
                 } else if (button.getText().equals("Formations")) {
                     // Action pour afficher les formations
                 } else if (button.getText().equals("Projets")) {
