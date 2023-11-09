@@ -1,13 +1,16 @@
-package classe;
+package InterfaceG;
 
 import javax.swing.table.DefaultTableModel;
+
+import Dao.EtudiantDAO;
+import classe.Etudiant;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-import javax.swing.*;
 
-public class App {
+public class AppEtudiant {
     private JFrame frame;
     private JTable table;
     private JScrollPane scrollPane;
@@ -16,7 +19,7 @@ public class App {
     private final String[] columnNames = {"ID", "Nom", "Prénom", "ID Formation"};
     
 
-    public App() {
+    public AppEtudiant() {
         frame = new JFrame("Gestion des Etudiants");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -28,7 +31,7 @@ public class App {
 
         for (int i = 0; i < etudiants.size(); i++) {
             Etudiant etudiant = etudiants.get(i);
-            data[i][0] = etudiant.getId();
+            data[i][0] = etudiant.getIdEtudiant();
             data[i][1] = etudiant.getNom();
             data[i][2] = etudiant.getPrenom();
             data[i][3] = etudiant.getIdFormation();
@@ -116,7 +119,7 @@ public class App {
 
          for (int i = 0; i < etudiants.size(); i++) {
              Etudiant etudiant = etudiants.get(i);
-             newData[i][0] = etudiant.getId();
+             newData[i][0] = etudiant.getIdEtudiant();
              newData[i][1] = etudiant.getNom();
              newData[i][2] = etudiant.getPrenom();
              newData[i][3] = etudiant.getIdFormation();
@@ -126,6 +129,6 @@ public class App {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(App::new);
+        SwingUtilities.invokeLater(AppEtudiant::new);
     }
 }

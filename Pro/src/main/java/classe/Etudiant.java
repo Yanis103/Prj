@@ -1,7 +1,7 @@
 package classe;
 
 public class Etudiant {
-    private int id;
+    private int idEtudiant;
     private String nom;
     private String prenom;
     private int idFormation;
@@ -10,19 +10,18 @@ public class Etudiant {
         // Constructeur par défaut
     }
 
-    public Etudiant(int id, String nom, String prenom, int idFormation) {
-        this.id = id;
+    public Etudiant(String nom, String prenom, int idFormation) {
         this.nom = nom;
         this.prenom = prenom;
         this.idFormation = idFormation;
     }
 
-    public int getId() {
-        return id;
+    public int getIdEtudiant() {
+        return idEtudiant;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdEtudiant(int idEtudiant) {
+        this.idEtudiant = idEtudiant;
     }
 
     public String getNom() {

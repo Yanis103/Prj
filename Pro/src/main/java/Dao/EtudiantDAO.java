@@ -1,8 +1,9 @@
-package classe;
+package Dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import classe.Etudiant;
 
 public class EtudiantDAO {
     private Connection connection;
@@ -24,7 +25,7 @@ public class EtudiantDAO {
 
             while (resultSet.next()) {
                 Etudiant etudiant = new Etudiant();
-                etudiant.setId(resultSet.getInt("id"));
+                etudiant.setIdEtudiant(resultSet.getInt("idEtudiant"));
                 etudiant.setNom(resultSet.getString("nom"));
                 etudiant.setPrenom(resultSet.getString("prenom"));
                 etudiant.setIdFormation(resultSet.getInt("idFormation"));
@@ -41,13 +42,13 @@ public class EtudiantDAO {
         Etudiant etudiant = null;
 
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Etudiant WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Etudiant WHERE idEtudiant = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 etudiant = new Etudiant();
-                etudiant.setId(resultSet.getInt("id"));
+                etudiant.setIdEtudiant(resultSet.getInt("idEtudiant"));
                 etudiant.setNom(resultSet.getString("nom"));
                 etudiant.setPrenom(resultSet.getString("prenom"));
                 etudiant.setIdFormation(resultSet.getInt("idFormation"));
@@ -61,14 +62,25 @@ public class EtudiantDAO {
 
     public void addEtudiant(Etudiant etudiant) {
         try {
-            String query = "INSERT INTO Etudiant (id, nom, prenom, idFormation) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, etudiant.getId());
-            statement.setString(2, etudiant.getNom());
-            statement.setString(3, etudiant.getPrenom());
-            statement.setInt(4, etudiant.getIdFormation());
+            String query = "INSERT INTO Etudiant (nom, prenom, idFormation) VALUES (?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, etudiant.getNom());
+            statement.setString(2, etudiant.getPrenom());
+            statement.setInt(3, etudiant.getIdFormation());
 
-            statement.executeUpdate();
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("La création de l'étudiant a échoué, aucune ligne affectée.");
+            }
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    etudiant.setIdEtudiant(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("La création de l'étudiant a échoué, aucun ID retourné.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,12 +88,12 @@ public class EtudiantDAO {
 
     public void updateEtudiant(Etudiant etudiant) {
         try {
-            String query = "UPDATE Etudiant SET nom = ?, prenom = ?, idFormation = ? WHERE id = ?";
+            String query = "UPDATE Etudiant SET nom = ?, prenom = ?, idFormation = ? WHERE idEtudiant = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, etudiant.getNom());
             statement.setString(2, etudiant.getPrenom());
             statement.setInt(3, etudiant.getIdFormation());
-            statement.setInt(4, etudiant.getId());
+            statement.setInt(4, etudiant.getIdEtudiant());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -91,7 +103,7 @@ public class EtudiantDAO {
 
     public void deleteEtudiant(int id) {
         try {
-            String query = "DELETE FROM Etudiant WHERE id = ?";
+            String query = "DELETE FROM Etudiant WHERE idEtudiant = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
 

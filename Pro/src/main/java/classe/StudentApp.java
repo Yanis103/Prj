@@ -52,8 +52,8 @@ public class StudentApp {
         String prenom = JOptionPane.showInputDialog(frame, "Prénom de l'étudiant:");
         int idFormation = Integer.parseInt(JOptionPane.showInputDialog(frame, "ID de Formation:"));
 
-        Etudiant newStudent = new Etudiant(students.size() + 1, nom, prenom, idFormation);
-        students.add(newStudent);
+        /*Etudiant newStudent = new Etudiant(nom, prenom , idFormation);
+        students.add(newStudent);*/
         refreshTable();
     }
 
@@ -86,13 +86,13 @@ public class StudentApp {
         }
 
         int idToDelete = (int) table.getValueAt(selectedRow, 0);
-        students.removeIf(student -> student.getId() == idToDelete);
+        students.removeIf(student -> student.getIdEtudiant() == idToDelete);
         refreshTable();
     }
 
     private Etudiant getStudentById(int id) {
         for (Etudiant student : students) {
-            if (student.getId() == id) {
+            if (student.getIdEtudiant() == id) {
                 return student;
             }
         }
@@ -102,7 +102,7 @@ public class StudentApp {
     public void refreshTable() {
         tableModel.setRowCount(0);
         for (Etudiant student : students) {
-            Object[] row = {student.getId(), student.getNom(), student.getPrenom(), student.getIdFormation()};
+            Object[] row = {student.getIdEtudiant(), student.getNom(), student.getPrenom(), student.getIdFormation()};
             tableModel.addRow(row);
         }
     }
