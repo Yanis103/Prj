@@ -1,9 +1,9 @@
-package InterfaceG;
+package interfaceG;
 
 import javax.swing.table.DefaultTableModel;
 
-import Dao.EtudiantDAO;
 import classe.Etudiant;
+import dao.EtudiantDAO;
 
 import javax.swing.*;
 import java.awt.*;

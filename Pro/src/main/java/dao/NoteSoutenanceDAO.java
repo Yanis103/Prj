@@ -1,4 +1,4 @@
-package Dao;
+package dao;
 
 import classe.NoteSoutenance;
 import java.sql.*;
