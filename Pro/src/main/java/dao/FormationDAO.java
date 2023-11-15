@@ -1,8 +1,8 @@
 package dao;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 import classe.Formation;
 
 public class FormationDAO {
@@ -57,6 +57,28 @@ public class FormationDAO {
 
         return formation;
     }
+    
+    public Map<Integer, String> getFormationNamesAndIDs() {
+        Map<Integer, String> formationMap = new HashMap<>();
+        String query = "SELECT idFormation, nomFormation FROM Formation";
+
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int idFormation = resultSet.getInt("idFormation");
+                String nomFormation = resultSet.getString("nomFormation");
+                formationMap.put(idFormation, nomFormation);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Gérer les exceptions ou les logs
+        }
+
+        return formationMap;
+    }
+
 
     public void addFormation(Formation formation) {
         try {

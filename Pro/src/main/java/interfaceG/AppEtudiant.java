@@ -3,30 +3,33 @@ package interfaceG;
 import javax.swing.table.DefaultTableModel;
 
 import classe.Etudiant;
+import classe.Formation;  // Importer la classe Formation
 import dao.EtudiantDAO;
+import dao.FormationDAO;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-
 
 public class AppEtudiant {
     private JFrame frame;
     private JTable table;
     private JScrollPane scrollPane;
     private EtudiantDAO etudiantDAO;
+    private FormationDAO formationDAO;  // Ajouter le DAO de Formation
     private DefaultTableModel tableModel;
-    private final String[] columnNames = {"ID", "Nom", "Prénom", "ID Formation"};
-    
+    private final String[] columnNames = {"ID", "Nom", "Prénom", "Formation"};  // Modifier le nom de la colonne
+
 
     public AppEtudiant() {
         frame = new JFrame("Gestion des Etudiants");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         etudiantDAO = new EtudiantDAO();
+        formationDAO = new FormationDAO();  // Initialiser le DAO de Formation
+
         List<Etudiant> etudiants = etudiantDAO.getAllEtudiants();
 
-       
         Object[][] data = new Object[etudiants.size()][4];
 
         for (int i = 0; i < etudiants.size(); i++) {
@@ -34,7 +37,7 @@ public class AppEtudiant {
             data[i][0] = etudiant.getIdEtudiant();
             data[i][1] = etudiant.getNom();
             data[i][2] = etudiant.getPrenom();
-            data[i][3] = etudiant.getIdFormation();
+            data[i][3] = etudiant.getFormation().getNomFormation();  // Utiliser le nom de la formation
         }
 
         table = new JTable(data, columnNames);
@@ -45,19 +48,31 @@ public class AppEtudiant {
         addButton.addActionListener(e -> {
             String nom = JOptionPane.showInputDialog(frame, "Nom de l'étudiant:");
             String prenom = JOptionPane.showInputDialog(frame, "Prénom de l'étudiant:");
-            int idFormation = Integer.parseInt(JOptionPane.showInputDialog(frame, "ID de Formation:"));
+
+            List<Formation> formations = formationDAO.getAllFormations();  // Obtenir la liste des formations
+            String[] formationNames = formations.stream()
+                    .map(Formation::getNomFormation)
+                    .toArray(String[]::new);
+
+            String selectedFormationName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez le Nom de la Formation :",
+                    "Sélection du Nom de la Formation", JOptionPane.PLAIN_MESSAGE, null, formationNames, formationNames[0]);
+
+            Formation selectedFormation = formations.stream()
+                    .filter(formation -> formation.getNomFormation().equals(selectedFormationName))
+                    .findFirst()
+                    .orElse(null);
 
             Etudiant nouveauEtudiant = new Etudiant();
             nouveauEtudiant.setNom(nom);
             nouveauEtudiant.setPrenom(prenom);
-            nouveauEtudiant.setIdFormation(idFormation);
+            nouveauEtudiant.setFormation(selectedFormation);  // Utiliser l'objet Formation
 
             etudiantDAO.addEtudiant(nouveauEtudiant);
 
             // Rafraîchir la table après l'ajout
             refreshTable();
         });
-        
+
         tableModel = new DefaultTableModel(data, columnNames);
         table.setModel(tableModel);
 
@@ -74,18 +89,29 @@ public class AppEtudiant {
 
             String nom = JOptionPane.showInputDialog(frame, "Nouveau nom de l'étudiant:", etudiantToUpdate.getNom());
             String prenom = JOptionPane.showInputDialog(frame, "Nouveau prénom de l'étudiant:", etudiantToUpdate.getPrenom());
-            int idFormation = Integer.parseInt(JOptionPane.showInputDialog(frame, "Nouvel ID de Formation:", etudiantToUpdate.getIdFormation()));
+
+            List<Formation> formations = formationDAO.getAllFormations();
+            String[] formationNames = formations.stream()
+                    .map(Formation::getNomFormation)
+                    .toArray(String[]::new);
+
+            String selectedFormationName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez le Nom de la Formation :",
+                    "Sélection du Nom de la Formation", JOptionPane.PLAIN_MESSAGE, null, formationNames, formationNames[0]);
+
+            Formation selectedFormation = formations.stream()
+                    .filter(formation -> formation.getNomFormation().equals(selectedFormationName))
+                    .findFirst()
+                    .orElse(null);
 
             etudiantToUpdate.setNom(nom);
             etudiantToUpdate.setPrenom(prenom);
-            etudiantToUpdate.setIdFormation(idFormation);
+            etudiantToUpdate.setFormation(selectedFormation);
 
             etudiantDAO.updateEtudiant(etudiantToUpdate);
 
             // Rafraîchir la table après la mise à jour
             refreshTable();
         });
-
 
         JButton deleteButton = new JButton("Supprimer");
         deleteButton.addActionListener(e -> {
@@ -102,7 +128,6 @@ public class AppEtudiant {
             refreshTable();
         });
 
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
@@ -112,21 +137,22 @@ public class AppEtudiant {
         frame.pack();
         frame.setVisible(true);
     }
-    
+
     private void refreshTable() {
-    	 List<Etudiant> etudiants = etudiantDAO.getAllEtudiants();
-         Object[][] newData = new Object[etudiants.size()][4];
+        List<Etudiant> etudiants = etudiantDAO.getAllEtudiants();
+        Object[][] newData = new Object[etudiants.size()][4];
 
-         for (int i = 0; i < etudiants.size(); i++) {
-             Etudiant etudiant = etudiants.get(i);
-             newData[i][0] = etudiant.getIdEtudiant();
-             newData[i][1] = etudiant.getNom();
-             newData[i][2] = etudiant.getPrenom();
-             newData[i][3] = etudiant.getIdFormation();
-         }
+        for (int i = 0; i < etudiants.size(); i++) {
+            Etudiant etudiant = etudiants.get(i);
+            newData[i][0] = etudiant.getIdEtudiant();
+            newData[i][1] = etudiant.getNom();
+            newData[i][2] = etudiant.getPrenom();
+            newData[i][3] = etudiant.getFormation().getNomFormation();
+        }
 
-         tableModel.setDataVector(newData, columnNames);
+        tableModel.setDataVector(newData, columnNames);
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(AppEtudiant::new);

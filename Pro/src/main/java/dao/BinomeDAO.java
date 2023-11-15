@@ -1,8 +1,9 @@
 package dao;
 
 import classe.Binome;
+import classe.Projet;
+
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +28,18 @@ public class BinomeDAO {
             while (resultSet.next()) {
                 Binome binome = new Binome();
                 binome.setIdBinome(resultSet.getInt("idBinome"));
-                binome.setIdProjet(resultSet.getInt("idProjet"));
+             // Obtenez le projet à l'aide de son ID
+                int idProjet = resultSet.getInt("idProjet");
+                ProjetDAO projetDAO = new ProjetDAO();
+                Projet projet = projetDAO.getProjetById(idProjet);
+
+                binome.setProjet(projet);
                 binome.setNoteRapport(resultSet.getDouble("noteRapport"));
                 binome.setBinomeReference(resultSet.getString("binomeReference"));
                 binome.setDateRemiseEffective(resultSet.getDate("dateRemiseEffective").toLocalDate());
+
+                
+
                 binomes.add(binome);
             }
         } catch (SQLException e) {
@@ -40,14 +49,45 @@ public class BinomeDAO {
         return binomes;
     }
 
+    public Binome getBinomeById(int id) {
+        Binome binome = null;
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Binome WHERE idBinome = ?");
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                binome = new Binome();
+                binome.setIdBinome(resultSet.getInt("idBinome"));
+                
+                // Obtenez le projet à l'aide de son ID
+                int idProjet = resultSet.getInt("idProjet");
+                ProjetDAO projetDAO = new ProjetDAO();
+                Projet projet = projetDAO.getProjetById(idProjet);
+
+                binome.setProjet(projet);
+                binome.setNoteRapport(resultSet.getDouble("noteRapport"));
+                binome.setBinomeReference(resultSet.getString("binomeReference"));
+                binome.setDateRemiseEffective(resultSet.getDate("dateRemiseEffective").toLocalDate());
+
+               
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return binome;
+    }
+
     public void addBinome(Binome binome) {
         try {
             String query = "INSERT INTO Binome (idProjet, noteRapport, binomeReference, dateRemiseEffective) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, binome.getIdProjet());
+            statement.setInt(1, binome.getProjet().getIdProjet());
             statement.setDouble(2, binome.getNoteRapport());
             statement.setString(3, binome.getBinomeReference());
-            statement.setDate(4, Date.valueOf(binome.getDateRemiseEffective()));
+            statement.setDate(4, java.sql.Date.valueOf(binome.getDateRemiseEffective()));
 
             int affectedRows = statement.executeUpdate();
 
@@ -71,10 +111,10 @@ public class BinomeDAO {
         try {
             String query = "UPDATE Binome SET idProjet = ?, noteRapport = ?, binomeReference = ?, dateRemiseEffective = ? WHERE idBinome = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, binome.getIdProjet());
+            statement.setInt(1, binome.getProjet().getIdProjet());
             statement.setDouble(2, binome.getNoteRapport());
             statement.setString(3, binome.getBinomeReference());
-            statement.setDate(4, Date.valueOf(binome.getDateRemiseEffective()));
+            statement.setDate(4, java.sql.Date.valueOf(binome.getDateRemiseEffective()));
             statement.setInt(5, binome.getIdBinome());
 
             statement.executeUpdate();
@@ -94,5 +134,4 @@ public class BinomeDAO {
             e.printStackTrace();
         }
     }
-
 }

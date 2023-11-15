@@ -4,16 +4,15 @@ public class Etudiant {
     private int idEtudiant;
     private String nom;
     private String prenom;
-    private int idFormation;
+    private Formation formation;
 
     public Etudiant() {
-        // Constructeur par défaut
     }
 
-    public Etudiant(String nom, String prenom, int idFormation) {
+    public Etudiant(String nom, String prenom, Formation formation) {
         this.nom = nom;
         this.prenom = prenom;
-        this.idFormation = idFormation;
+        this.formation = formation;
     }
 
     public int getIdEtudiant() {
@@ -40,11 +39,11 @@ public class Etudiant {
         this.prenom = prenom;
     }
 
-    public int getIdFormation() {
-        return idFormation;
+    public Formation getFormation() {
+        return formation;
     }
 
-    public void setIdFormation(int idFormation) {
-        this.idFormation = idFormation;
+    public void setFormation(Formation formation) {
+        this.formation = formation;
     }
 }
