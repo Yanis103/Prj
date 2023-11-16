@@ -34,9 +34,9 @@ CREATE TABLE Binome (
 
 -- Table NoteSoutenance
 CREATE TABLE NoteSoutenance (
-    idNoteSoutenance INT AUTO_INCREMENT PRIMARY KEY,
     idBinome INT,
     idEtudiant INT,
+    PRIMARY KEY (idEtudiant, idBinome)
     noteSoutenance DOUBLE,
     FOREIGN KEY (idBinome) REFERENCES Binome(idBinome),
     FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant)
