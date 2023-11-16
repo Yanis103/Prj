@@ -1,6 +1,8 @@
 package dao;
 
+import classe.Connexion;
 import classe.NoteSoutenance;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

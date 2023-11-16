@@ -1,11 +1,14 @@
 package dao;
 
+import classe.Connexion;
 import classe.Etudiant;
 import classe.Formation;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import exception.EtudiantInexistant;
 
 public class EtudiantDAO {
     private Connection connection;
@@ -18,7 +21,17 @@ public class EtudiantDAO {
             e.printStackTrace();
         }
     }
-
+    
+    public boolean existeEtudiant(int id) {
+    	List<Etudiant> etudiants = this.getAllEtudiants();
+    	for(Etudiant e : etudiants) {
+    		if(e.getIdEtudiant() == id) {
+    			return true;
+    		}
+    	}
+    	return false ;
+    }
+    
     // Méthode pour obtenir tous les étudiants
     public List<Etudiant> getAllEtudiants() {
         List<Etudiant> etudiants = new ArrayList<>();
@@ -37,7 +50,6 @@ public class EtudiantDAO {
                 int idFormation = resultSet.getInt("idFormation");
                 FormationDAO formationDAO = new FormationDAO();
                 Formation formation = formationDAO.getFormationById(idFormation);
-
                 etudiant.setFormation(formation);
 
                 etudiants.add(etudiant);
@@ -77,7 +89,92 @@ public class EtudiantDAO {
 
         return etudiant;
     }
+    
+    public List<Etudiant> getEtudiantByNom(String nom) {
+    	List<Etudiant> etudiants = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Etudiant WHERE nom = ?");
+            statement.setString(1, nom);
+            ResultSet resultSet = statement.executeQuery();
 
+            if (resultSet.next()) {
+                Etudiant etudiant = new Etudiant();
+                etudiant.setIdEtudiant(resultSet.getInt("idEtudiant"));
+                etudiant.setNom(resultSet.getString("nom"));
+                etudiant.setPrenom(resultSet.getString("prenom"));
+
+                // Obtenez la formation à l'aide de son ID
+                int idFormation = resultSet.getInt("idFormation");
+                FormationDAO formationDAO = new FormationDAO();
+                Formation formation = formationDAO.getFormationById(idFormation);
+                etudiant.setFormation(formation);
+                
+                etudiants.add(etudiant);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return etudiants;
+    }
+    
+    public List<Etudiant> getEtudiantByPrenom(String prenom) {
+    	List<Etudiant> etudiants = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Etudiant WHERE prenom = ?");
+            statement.setString(1, prenom);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Etudiant etudiant = new Etudiant();
+                etudiant.setIdEtudiant(resultSet.getInt("idEtudiant"));
+                etudiant.setNom(resultSet.getString("nom"));
+                etudiant.setPrenom(resultSet.getString("prenom"));
+
+                // Obtenez la formation à l'aide de son ID
+                int idFormation = resultSet.getInt("idFormation");
+                FormationDAO formationDAO = new FormationDAO();
+                Formation formation = formationDAO.getFormationById(idFormation);
+                etudiant.setFormation(formation);
+                
+                etudiants.add(etudiant);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return etudiants;
+    }
+    
+    public List<Etudiant> getEtudiantByIdFormation(int id) {
+    	List<Etudiant> etudiants = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Etudiant WHERE idFormation = ?");
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Etudiant etudiant = new Etudiant();
+                etudiant.setIdEtudiant(resultSet.getInt("idEtudiant"));
+                etudiant.setNom(resultSet.getString("nom"));
+                etudiant.setPrenom(resultSet.getString("prenom"));
+
+                // Obtenez la formation à l'aide de son ID
+                int idFormation = resultSet.getInt("idFormation");
+                FormationDAO formationDAO = new FormationDAO();
+                Formation formation = formationDAO.getFormationById(idFormation);
+                etudiant.setFormation(formation);
+                
+                etudiants.add(etudiant);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return etudiants;
+    }
+    
+    /*Modification de la table */
     // Méthode pour ajouter un nouvel étudiant
     public void addEtudiant(Etudiant etudiant) {
         try {
@@ -86,7 +183,7 @@ public class EtudiantDAO {
             statement.setString(1, etudiant.getNom());
             statement.setString(2, etudiant.getPrenom());
             statement.setInt(3, etudiant.getFormation().getIdFormation());
-
+            /*On vérifie que l'insertion s'est bien passée*/
             int affectedRows = statement.executeUpdate();
 
             if (affectedRows == 0) {
@@ -124,13 +221,18 @@ public class EtudiantDAO {
     // Méthode pour supprimer un étudiant par son ID
     public void deleteEtudiant(int id) {
         try {
+        	if(! this.existeEtudiant(id)) {
+        		throw new EtudiantInexistant(id);
+        	}
             String query = "DELETE FROM Etudiant WHERE idEtudiant = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
-
+            
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (EtudiantInexistant e) {
+            e.getMessage();
+        } catch (SQLException se) {
+        	se.printStackTrace();
         }
     }
 

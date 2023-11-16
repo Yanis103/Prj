@@ -22,16 +22,16 @@ public class AppEtudiant {
 
 
     public AppEtudiant() {
+    	/*Titre de la fenetre*/
         frame = new JFrame("Gestion des Etudiants");
+        /*Fermeture de la fenetre*/
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         etudiantDAO = new EtudiantDAO();
         formationDAO = new FormationDAO();  // Initialiser le DAO de Formation
-
+        /*On récupere tous les etudiants de la base de donnees*/
         List<Etudiant> etudiants = etudiantDAO.getAllEtudiants();
-
+        /*On stocke les informations des etudiants dans un tableau qui possede 4 colonnes ; une colonne par attribut*/
         Object[][] data = new Object[etudiants.size()][4];
-
         for (int i = 0; i < etudiants.size(); i++) {
             Etudiant etudiant = etudiants.get(i);
             data[i][0] = etudiant.getIdEtudiant();
@@ -39,29 +39,30 @@ public class AppEtudiant {
             data[i][2] = etudiant.getPrenom();
             data[i][3] = etudiant.getFormation().getNomFormation();  // Utiliser le nom de la formation
         }
-
         table = new JTable(data, columnNames);
+        
         scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
-
+        /*Ona joute un bouton "Ajouter" et on lui associe une action*/
         JButton addButton = new JButton("Ajouter");
         addButton.addActionListener(e -> {
+        	
+        	/*On demande a l utilisateur de preciser le nom, le prenom */
             String nom = JOptionPane.showInputDialog(frame, "Nom de l'étudiant:");
             String prenom = JOptionPane.showInputDialog(frame, "Prénom de l'étudiant:");
-
+            
+            /*On stocke dans formations toutes les formations diponibles dans la base de donnees*/
             List<Formation> formations = formationDAO.getAllFormations();  // Obtenir la liste des formations
             String[] formationNames = formations.stream()
                     .map(Formation::getNomFormation)
                     .toArray(String[]::new);
-
             String selectedFormationName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez le Nom de la Formation :",
                     "Sélection du Nom de la Formation", JOptionPane.PLAIN_MESSAGE, null, formationNames, formationNames[0]);
-
             Formation selectedFormation = formations.stream()
                     .filter(formation -> formation.getNomFormation().equals(selectedFormationName))
                     .findFirst()
                     .orElse(null);
-
+            /*On cree l etudiant avec l ensemble des informations recoltees*/
             Etudiant nouveauEtudiant = new Etudiant();
             nouveauEtudiant.setNom(nom);
             nouveauEtudiant.setPrenom(prenom);
