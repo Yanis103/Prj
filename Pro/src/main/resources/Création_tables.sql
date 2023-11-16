@@ -36,7 +36,7 @@ CREATE TABLE Binome (
 CREATE TABLE NoteSoutenance (
     idBinome INT,
     idEtudiant INT,
-    PRIMARY KEY (idEtudiant, idBinome)
+    PRIMARY KEY (idEtudiant, idBinome),
     noteSoutenance DOUBLE,
     FOREIGN KEY (idBinome) REFERENCES Binome(idBinome),
     FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant)

@@ -23,15 +23,6 @@ INSERT INTO Binome (idProjet, noteRapport, binomeReference, dateRemiseEffective)
 ((SELECT idProjet FROM Projet WHERE sujet = 'Analyse numérique'), 15.5, 'Binome1', '2023-12-31'),
 ((SELECT idProjet FROM Projet WHERE sujet = 'Mécanique quantique'), 14.5, 'Binome2', '2023-12-31');
 
-
--- Insertion dans la table de liaison pour les binômes et les étudiants
-INSERT INTO EtudiantBinome (idEtudiant, idBinome) VALUES
-((SELECT idEtudiant FROM Etudiant WHERE nom = 'Durand' AND prenom = 'Lucie'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome1')),
-((SELECT idEtudiant FROM Etudiant WHERE nom = 'Dubois' AND prenom = 'Jean'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome1')),
-((SELECT idEtudiant FROM Etudiant WHERE nom = 'Martin' AND prenom = 'Sophie'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome2')),
-((SELECT idEtudiant FROM Etudiant WHERE nom = 'Moreau' AND prenom = 'Pierre'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome2'));
-
-
 -- Insertion dans la table de liaison pour les binômes et les étudiants
 INSERT INTO NoteSoutenance (idBinome, idEtudiant, noteSoutenance) VALUES
 ((SELECT idBinome FROM Binome WHERE binomeReference = 'Binome1'), (SELECT idEtudiant FROM Etudiant WHERE nom = 'Durand' AND prenom = 'Lucie'), 16.0),
