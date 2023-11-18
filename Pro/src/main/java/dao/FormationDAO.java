@@ -3,6 +3,7 @@ package dao;
 import java.sql.*;
 import java.util.*;
 
+import classe.Connexion;
 import classe.Formation;
 
 public class FormationDAO {

@@ -1,6 +1,7 @@
 package dao;
 
 import classe.Binome;
+import classe.Connexion;
 import classe.Projet;
 
 import java.sql.*;

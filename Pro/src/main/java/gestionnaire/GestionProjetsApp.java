@@ -1,4 +1,4 @@
-package classe;
+package gestionnaire;
 
 import javax.swing.*;
 import java.awt.*;

@@ -32,11 +32,19 @@ CREATE TABLE Binome (
     FOREIGN KEY (idProjet) REFERENCES Projet(idProjet) ON DELETE CASCADE
 );
 
+<<<<<<< HEAD
 --Table association 
 
 CREATE TABLE EtudiantBinome (
     idEtudiant INT,
     idBinome INT,
+=======
+-- Table NoteSoutenance
+CREATE TABLE NoteSoutenance (
+    idBinome INT,
+    idEtudiant INT,
+    PRIMARY KEY (idEtudiant, idBinome),
+>>>>>>> ea5bf2425c86dba65a64edba1362a6d382ff81d4
     noteSoutenance DOUBLE,
     FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant) ON DELETE CASCADE,
     FOREIGN KEY (idBinome) REFERENCES Binome(idBinome) ON DELETE CASCADE,

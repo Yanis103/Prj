@@ -3,6 +3,8 @@ package dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import classe.Connexion;
 import classe.Projet;
 
 public class ProjetDAO {
