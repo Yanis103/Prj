@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Binome {
     private int idBinome;
     private Projet projet; // Utiliser l'objet Projet
-    private double noteRapport;
+    private Double noteRapport;
     private String binomeReference;
     private LocalDate dateRemiseEffective;
 
@@ -13,7 +13,7 @@ public class Binome {
         // Constructeur par défaut
     }
 
-    public Binome(Projet projet, double noteRapport, String binomeReference, LocalDate dateRemiseEffective) {
+    public Binome(Projet projet, Double noteRapport, String binomeReference, LocalDate dateRemiseEffective) {
         this.projet = projet;
         this.noteRapport = noteRapport;
         this.binomeReference = binomeReference;
@@ -36,11 +36,11 @@ public class Binome {
         this.projet = projet;
     }
 
-    public double getNoteRapport() {
+    public Double getNoteRapport() {
         return noteRapport;
     }
 
-    public void setNoteRapport(double noteRapport) {
+    public void setNoteRapport(Double noteRapport) {
         this.noteRapport = noteRapport;
     }
 

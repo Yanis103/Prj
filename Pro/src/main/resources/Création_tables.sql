@@ -29,16 +29,16 @@ CREATE TABLE Binome (
     noteRapport DOUBLE,
     binomeReference VARCHAR(50) UNIQUE,
     dateRemiseEffective DATE,
-    FOREIGN KEY (idProjet) REFERENCES Projet(idProjet)
+    FOREIGN KEY (idProjet) REFERENCES Projet(idProjet) ON DELETE CASCADE
 );
 
--- Table NoteSoutenance
-CREATE TABLE NoteSoutenance (
-    idNoteSoutenance INT AUTO_INCREMENT PRIMARY KEY,
-    idBinome INT,
+--Table association 
+
+CREATE TABLE EtudiantBinome (
     idEtudiant INT,
+    idBinome INT,
     noteSoutenance DOUBLE,
-    FOREIGN KEY (idBinome) REFERENCES Binome(idBinome),
-    FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant)
+    FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant) ON DELETE CASCADE,
+    FOREIGN KEY (idBinome) REFERENCES Binome(idBinome) ON DELETE CASCADE,
+    PRIMARY KEY (idEtudiant, idBinome)
 );
-

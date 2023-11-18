@@ -47,7 +47,7 @@ public class GestionProjetsApp extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (button.getText().equals("Étudiants")) {
-                    new StudentApp().setVisible(true);
+                    /*new StudentApp().setVisible(true);*/
                 } else if (button.getText().equals("Formations")) {
                     // Action pour afficher les formations
                 } else if (button.getText().equals("Projets")) {

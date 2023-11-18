@@ -69,11 +69,11 @@ public class StudentApp {
 
         String nom = JOptionPane.showInputDialog(frame, "Nouveau nom de l'étudiant:", studentToUpdate.getNom());
         String prenom = JOptionPane.showInputDialog(frame, "Nouveau prénom de l'étudiant:", studentToUpdate.getPrenom());
-        int idFormation = Integer.parseInt(JOptionPane.showInputDialog(frame, "Nouvel ID de Formation:", studentToUpdate.getIdFormation()));
+       /* int idFormation = Integer.parseInt(JOptionPane.showInputDialog(frame, "Nouvel ID de Formation:", studentToUpdate.getIdFormation()));
 
         studentToUpdate.setNom(nom);
         studentToUpdate.setPrenom(prenom);
-        studentToUpdate.setIdFormation(idFormation);
+        studentToUpdate.setIdFormation(idFormation);*/
 
         refreshTable();
     }
@@ -100,7 +100,7 @@ public class StudentApp {
     }
 
     public void refreshTable() {
-        tableModel.setRowCount(0);
+        /*tableModel.setRowCount(0);
         for (Etudiant student : students) {
             Object[] row = {student.getIdEtudiant(), student.getNom(), student.getPrenom(), student.getIdFormation()};
             tableModel.addRow(row);
@@ -110,7 +110,7 @@ public class StudentApp {
         frame.setVisible(visible);
     }
     public boolean IsVisible() {
-        return frame.isVisible();
+        return frame.isVisible();*/
     }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(StudentApp::new);

@@ -25,17 +25,12 @@ INSERT INTO Binome (idProjet, noteRapport, binomeReference, dateRemiseEffective)
 
 
 -- Insertion dans la table de liaison pour les binômes et les étudiants
-INSERT INTO EtudiantBinome (idEtudiant, idBinome) VALUES
-((SELECT idEtudiant FROM Etudiant WHERE nom = 'Durand' AND prenom = 'Lucie'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome1')),
-((SELECT idEtudiant FROM Etudiant WHERE nom = 'Dubois' AND prenom = 'Jean'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome1')),
-((SELECT idEtudiant FROM Etudiant WHERE nom = 'Martin' AND prenom = 'Sophie'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome2')),
-((SELECT idEtudiant FROM Etudiant WHERE nom = 'Moreau' AND prenom = 'Pierre'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome2'));
+INSERT INTO EtudiantBinome (idEtudiant, idBinome,noteSoutenance) VALUES
+((SELECT idEtudiant FROM Etudiant WHERE nom = 'Durand' AND prenom = 'Lucie'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome1'),16.0),
+((SELECT idEtudiant FROM Etudiant WHERE nom = 'Dubois' AND prenom = 'Jean'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome1'),5.0),
+((SELECT idEtudiant FROM Etudiant WHERE nom = 'Martin' AND prenom = 'Sophie'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome2'),6.0),
+((SELECT idEtudiant FROM Etudiant WHERE nom = 'Moreau' AND prenom = 'Pierre'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome2'),0.0);
 
 
--- Insertion dans la table de liaison pour les binômes et les étudiants
-INSERT INTO NoteSoutenance (idBinome, idEtudiant, noteSoutenance) VALUES
-((SELECT idBinome FROM Binome WHERE binomeReference = 'Binome1'), (SELECT idEtudiant FROM Etudiant WHERE nom = 'Durand' AND prenom = 'Lucie'), 16.0),
-((SELECT idBinome FROM Binome WHERE binomeReference = 'Binome1'), (SELECT idEtudiant FROM Etudiant WHERE nom = 'Dubois' AND prenom = 'Jean'), 15.0),
-((SELECT idBinome FROM Binome WHERE binomeReference = 'Binome2'), (SELECT idEtudiant FROM Etudiant WHERE nom = 'Martin' AND prenom = 'Sophie'), 14.0),
-((SELECT idBinome FROM Binome WHERE binomeReference = 'Binome2'), (SELECT idEtudiant FROM Etudiant WHERE nom = 'Moreau' AND prenom = 'Pierre'), 13.0);
+
 

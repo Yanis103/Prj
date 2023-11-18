@@ -60,11 +60,11 @@ public class AppBinome {
                     .findFirst()
                     .orElse(null);
 
-            double noteRapport = Double.parseDouble(JOptionPane.showInputDialog(frame, "Note du rapport :"));
+            
             String binomeReference = JOptionPane.showInputDialog(frame, "Référence du binôme :");
             LocalDate dateRemiseEffective = LocalDate.parse(JOptionPane.showInputDialog(frame, "Date Remise Effective (YYYY-MM-DD)"));
 
-            Binome nouveauBinome = new Binome(selectedProjet, noteRapport, binomeReference, dateRemiseEffective);
+            Binome nouveauBinome = new Binome(selectedProjet, null, binomeReference, dateRemiseEffective);
 
             binomeDAO.addBinome(nouveauBinome);
 
@@ -99,13 +99,13 @@ public class AppBinome {
                     .findFirst()
                     .orElse(null);
 
-            double noteRapport = Double.parseDouble(JOptionPane.showInputDialog(frame, "Nouvelle note du rapport :", binomeToUpdate.getNoteRapport()));
+         
             String binomeReference = JOptionPane.showInputDialog(frame, "Nouvelle référence du binôme :", binomeToUpdate.getBinomeReference());
             String nouvelleDateStr = JOptionPane.showInputDialog(frame, "Nouvelle Date Remise Effective (YYYY-MM-DD)", binomeToUpdate.getDateRemiseEffective());
             LocalDate dateRemiseEffective = LocalDate.parse(nouvelleDateStr);
 
             binomeToUpdate.setProjet(selectedProjet);
-            binomeToUpdate.setNoteRapport(noteRapport);
+        
             binomeToUpdate.setBinomeReference(binomeReference);
             binomeToUpdate.setDateRemiseEffective(dateRemiseEffective);
 
@@ -115,6 +115,26 @@ public class AppBinome {
             refreshTable();
         });
 
+        JButton noteButton = new JButton("Noter");
+        noteButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(frame, "Sélectionnez un binôme à mettre à jour.");
+                return;
+            }
+
+            int idToUpdate = (int) table.getValueAt(selectedRow, 0);
+            Binome binomeToUpdate = binomeDAO.getBinomeById(idToUpdate);
+
+            Double nouvelleNoteRapport = Double.parseDouble(JOptionPane.showInputDialog(frame, "Nouvelle note de rapport :", binomeToUpdate.getNoteRapport()));
+
+            binomeToUpdate.setNoteRapport(nouvelleNoteRapport);
+            binomeDAO.updateBinome2(binomeToUpdate);
+            // Rafraîchir la table après la mise à jour
+            refreshTable();
+        });
+        
+        
         JButton deleteButton = new JButton("Supprimer");
         deleteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
@@ -133,6 +153,7 @@ public class AppBinome {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
+        buttonPanel.add(noteButton);
         buttonPanel.add(deleteButton);
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -148,7 +169,7 @@ public class AppBinome {
             Binome binome = binomes.get(i);
             newData[i][0] = binome.getIdBinome();
             newData[i][1] = binome.getProjet().getNomMatiere();
-            newData[i][2] = binome.getNoteRapport();
+            newData[i][2] = binome.getNoteRapport()== null ? "" : binome.getNoteRapport();
             newData[i][3] = binome.getBinomeReference();
             newData[i][4] = binome.getDateRemiseEffective();
         }
