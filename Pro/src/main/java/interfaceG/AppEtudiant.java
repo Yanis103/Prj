@@ -30,6 +30,7 @@ public class AppEtudiant {
         formationDAO = new FormationDAO();  // Initialiser le DAO de Formation
         /*On récupere tous les etudiants de la base de donnees*/
         List<Etudiant> etudiants = etudiantDAO.getAllEtudiants();
+        System.out.println(etudiants.size());
         /*On stocke les informations des etudiants dans un tableau qui possede 4 colonnes ; une colonne par attribut*/
         Object[][] data = new Object[etudiants.size()][4];
         for (int i = 0; i < etudiants.size(); i++) {
