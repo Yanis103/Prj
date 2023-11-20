@@ -1,5 +1,12 @@
 package classe;
 
+/**
+ * Cette classe représente une Formation
+ * Une Formation se caractérise par : 
+ * 		idFormation : de type int, qui représente l'identifiant de la formation.
+ * 		nomFormation : de type String, qui représente le nom de la formation.
+ * 		promotion : de type String qui représente la promotion de la formation.
+ */
 public class Formation {
     private int idFormation;
     private String nomFormation;

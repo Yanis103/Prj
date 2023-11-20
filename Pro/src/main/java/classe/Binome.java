@@ -1,10 +1,19 @@
 package classe;
-
 import java.time.LocalDate;
+
+/**
+ * Cette classe représente un Binome
+ * Un Binome se caractérise par : 
+ * 		idBinome : de type int, qui représente l'identifiant du binome.
+ * 		projet : de type Projet, qui représente le projet sur lequel le binome travaille.
+ * 		noteRapport : de type Double qui représente la note de rapport.
+ * 		binomeReference : de type String, nom du binome.
+ * 		dateRemiseEffective : de type LocalDate, date de remise du projet par le Binome.
+ */
 
 public class Binome {
     private int idBinome;
-    private Projet projet; // Utiliser l'objet Projet
+    private Projet projet; 
     private Double noteRapport;
     private String binomeReference;
     private LocalDate dateRemiseEffective;

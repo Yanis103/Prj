@@ -1,7 +1,14 @@
 package classe;
-
 import java.time.LocalDate;
 
+/**
+ * Cette classe représente un Projet
+ * Un Projet se caractérise par : 
+ * 		idProjet : de type int, qui représente l'identifiant du Projet.
+ * 		nomMatiere : de type String, qui représente le nom de la matière.
+ * 		sujet : de type String qui représente le sujet du Projet.
+ * 		dateRemisePrevue : de type LocalDate, représente la date à laquelle le Projet doit etre remis.
+ */
 public class Projet {
     private int idProjet;
     private String nomMatiere;
