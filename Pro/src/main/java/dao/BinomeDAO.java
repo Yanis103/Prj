@@ -7,9 +7,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Cette class permet d'effectuer des opérations sur la table Binome de la base de données Projet.
+ */
 public class BinomeDAO {
     private Connection connection;
-
+    
+    /**
+     * Le constructeur vérifie que la connexion avec la base de données se passe convenablement.
+     */
     public BinomeDAO() {
         try {
             connection = Connexion.getConnection();
@@ -17,7 +23,11 @@ public class BinomeDAO {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Cette fonction permet de lister les binomes présents dans la table Binome
+     * @return les binomes présents dans la base de données sous forme d'ArrayList<Binome>
+     */
     public List<Binome> getAllBinomes() {
         List<Binome> binomes = new ArrayList<>();
 
@@ -48,7 +58,11 @@ public class BinomeDAO {
 
         return binomes;
     }
-
+    
+    /**
+     * Cette fonction permet de renvoyer le binome qui possède l'identifiant id
+     * @return le binome dont l'identifiant est id 
+     */
     public Binome getBinomeById(int id) {
         Binome binome = null;
 
@@ -79,7 +93,10 @@ public class BinomeDAO {
 
         return binome;
     }
-
+    
+    /**
+     * Cette fonction permet d'ajouter le Binome binome à la table Binome.
+     */
     public void addBinome(Binome binome) {
         try {
             String query = "INSERT INTO Binome (idProjet,noteRapport , binomeReference, dateRemiseEffective) VALUES (?, ?, ?, ?)";
@@ -106,7 +123,10 @@ public class BinomeDAO {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Cette fonction permet de mettre à jour les informations du Binome binome sauf la note de soutenance.
+     */
     public void updateBinome(Binome binome) {
         try {
             String query = "UPDATE Binome SET idProjet = ?, binomeReference = ?, dateRemiseEffective = ? WHERE idBinome = ?";
@@ -122,7 +142,10 @@ public class BinomeDAO {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Cette méthode permet de mettre à jour la note de soutenance du Binome binome.
+     */
     public void updateBinome2(Binome binome) {
         try {
             String query = "UPDATE Binome SET noteRapport = ? WHERE idBinome = ?";
@@ -134,6 +157,10 @@ public class BinomeDAO {
             e.printStackTrace();
         }
     }
+    
+    /**
+     *Cette méthode permet de supprimer de la base le Binome dont l'identifiant est id
+     */
     public void deleteBinome(int id) {
         try {
             String query = "DELETE FROM Binome WHERE idBinome = ?";

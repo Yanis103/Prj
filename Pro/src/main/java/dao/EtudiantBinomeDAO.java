@@ -11,9 +11,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Cette class permet d'effectuer des opérations sur la table EtudiantBinome de la base de données Projet.
+ */
 public class EtudiantBinomeDAO {
     private Connection connection;
-
+    
+    /**
+     * Le constructeur vérifie que la connexion avec la base de données se passe convenablement.
+     */
     public EtudiantBinomeDAO() {
         try {
             connection = Connexion.getConnection();
@@ -21,7 +27,7 @@ public class EtudiantBinomeDAO {
             e.printStackTrace();
         }
     }
-
+    
     public List<EtudiantBinome> getAllEtudiantBinomes() {
         List<EtudiantBinome> etudiantBinomes = new ArrayList<>();
 
@@ -54,10 +60,27 @@ public class EtudiantBinomeDAO {
 
         return etudiantBinomes;
     }
-
+    
+    /**
+     * Permet d'ajouter l'étudiant dont le numéro étudiant est etudiantBinome.getEtudiant() dans le binome dont l'identifiant est etudiantBinome.getBinome().getIdBinome() 
+     */
     public void addEtudiantBinome(EtudiantBinome etudiantBinome) {
         try {
-            String query = "INSERT INTO EtudiantBinome (idEtudiant, idBinome, noteSoutenance) VALUES (?, ?, ?)";
+        	/*On vérfie au préalable que le binome n'est pas complet sinon ajout impossible*/
+        	int idBinome = etudiantBinome.getBinome().getIdBinome();
+        	String verifQuery = "SELECT COUNT(*) AS nombre_etudiants FROM EtudiantBinome WHERE idBinome = ?";
+        	PreparedStatement statementVerif = connection.prepareStatement(verifQuery);
+        	statementVerif.setInt(1, idBinome);
+        	ResultSet resultSet = statementVerif.executeQuery();
+
+        	if (resultSet.next()) {
+        	    int nombreEtudiants = resultSet.getInt("nombre_etudiants");
+        	    if (nombreEtudiants >= 2) {
+        	        throw new SQLException("L'ajout de l'étudiant au binôme a échoué ; le binôme comporte déjà deux étudiants.");
+        	    }
+        	} 
+        	
+        	String query = "INSERT INTO EtudiantBinome (idEtudiant, idBinome, noteSoutenance) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, etudiantBinome.getEtudiant().getIdEtudiant());
             statement.setInt(2, etudiantBinome.getBinome().getIdBinome());
@@ -68,7 +91,8 @@ public class EtudiantBinomeDAO {
             e.printStackTrace();
         }
     }
-
+    
+    
     public void updateEtudiantBinome(EtudiantBinome etudiantBinome) {
         try {
             String query = "UPDATE EtudiantBinome SET noteSoutenance = ? WHERE idEtudiant = ? AND idBinome = ?";

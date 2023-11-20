@@ -1,13 +1,18 @@
 package dao;
-
 import java.sql.*;
 import java.util.*;
 
 import classe.Formation;
 
+/**
+ * Cette class permet d'effectuer des opérations sur la table Formation de la base de données Projet.
+ */
 public class FormationDAO {
     private Connection connection;
-
+    
+    /**
+     * Le constructeur vérifie que la connexion avec la base de données se passe convenablement.
+     */
     public FormationDAO() {
         try {
             connection = Connexion.getConnection();
@@ -15,7 +20,11 @@ public class FormationDAO {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Cette fonction permet de lister les formations présentes dans la table Formation
+     * @return les formations présentes dans la base de données sous forme d'ArrayList<Formation>
+     */
     public List<Formation> getAllFormations() {
         List<Formation> formations = new ArrayList<>();
 
@@ -37,6 +46,10 @@ public class FormationDAO {
         return formations;
     }
 
+    /**
+     * Cette fonction permet de renvoyer la formation qui possède l'identifiant id
+     * @return la formation dont l'identifiant est id 
+     */
     public Formation getFormationById(int id) {
         Formation formation = null;
 
@@ -58,6 +71,9 @@ public class FormationDAO {
         return formation;
     }
     
+    /**
+     * @return une table de hashahe dont la clé est l'identifiant de la formation et dont la valeur associée est la nom de la formation.
+     */
     public Map<Integer, String> getFormationNamesAndIDs() {
         Map<Integer, String> formationMap = new HashMap<>();
         String query = "SELECT idFormation, nomFormation FROM Formation";
@@ -73,22 +89,26 @@ public class FormationDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Gérer les exceptions ou les logs
         }
 
         return formationMap;
     }
 
-
+    
+    /**
+     * Cette fonction permet d'ajouter la Formation formation à la table Formation.
+     */
     public void addFormation(Formation formation) {
         try {
             String query = "INSERT INTO Formation (nomFormation, promotion) VALUES (?, ?)";
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, formation.getNomFormation());
             statement.setString(2, formation.getPromotion());
-
+            /*Cette instruction retourne le nombre de lignes affectées par la requête*/
             int affectedRows = statement.executeUpdate();
-
+            /*Si aucune ligne générée cela veut dire que l'ajout à échouer : 
+             * 		-Car formation possède un idFormation égal à celui d'une autre Formation présente dans la base. 
+             */
             if (affectedRows == 0) {
                 throw new SQLException("La création de la formation a échoué, aucune ligne affectée.");
             }
@@ -104,7 +124,10 @@ public class FormationDAO {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Cette fonction permet de mettre à jour une Formation
+     */
     public void updateFormation(Formation formation) {
         try {
             String query = "UPDATE Formation SET nomFormation = ?, promotion = ? WHERE idFormation = ?";
@@ -118,7 +141,10 @@ public class FormationDAO {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     *Cette méthode permet de supprimer de la base la Formation dont l'identifiant est id
+     */
     public void deleteFormation(int id) {
         try {
             String query = "DELETE FROM Formation WHERE idFormation = ?";

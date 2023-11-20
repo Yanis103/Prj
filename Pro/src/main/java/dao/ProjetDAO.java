@@ -5,9 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import classe.Projet;
 
+/**
+ * Cette class permet d'effectuer des opérations sur la table Projet de la base de données Projet.
+ */
 public class ProjetDAO {
     private Connection connection;
-
+    
+    /**
+     * Le constructeur vérifie que la connexion avec la base de données se passe convenablement.
+     */
     public ProjetDAO() {
         try {
             connection = Connexion.getConnection();
@@ -16,6 +22,10 @@ public class ProjetDAO {
         }
     }
 
+    /**
+     * Cette fonction permet de lister les projets présents dans la table Projet
+     * @return les projets présents dans la base de données sous forme d'ArrayList<Projet>
+     */
     public List<Projet> getAllProjets() {
         List<Projet> projets = new ArrayList<>();
 
@@ -37,7 +47,11 @@ public class ProjetDAO {
 
         return projets;
     }
-
+    
+    /**
+     * Cette fonction permet de renvoyer le projet qui possède l'identifiant id
+     * @return le projet dont l'identifiant est id 
+     */
     public Projet getProjetById(int id) {
         Projet projet = null;
 
@@ -59,7 +73,10 @@ public class ProjetDAO {
 
         return projet;
     }
-
+    
+    /**
+     * Cette fonction permet d'ajouter le Projet projet à la table Projet.
+     */
     public void addProjet(Projet projet) {
         try {
             String query = "INSERT INTO Projet (nomMatiere, sujet, dateRemisePrevue) VALUES (?, ?, ?)";
@@ -85,7 +102,10 @@ public class ProjetDAO {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Cette fonction permet de mettre à jour les informations du Projet projet.
+     */
     public void updateProjet(Projet projet) {
         try {
             String query = "UPDATE Projet SET nomMatiere = ?, sujet = ?, dateRemisePrevue = ? WHERE idProjet = ?";
@@ -100,7 +120,10 @@ public class ProjetDAO {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     *Cette méthode permet de supprimer de la base le Projet dont l'identifiant est id
+     */
     public void deleteProjet(int id) {
         try {
             String query = "DELETE FROM Projet WHERE idProjet = ?";
