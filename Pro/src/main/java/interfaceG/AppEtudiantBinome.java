@@ -97,7 +97,7 @@ public class AppEtudiantBinome {
         noteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(frame, "Sélectionnez un etudiant a noter");
+                JOptionPane.showMessageDialog(frame, "Sélectionnez un étudiant à noter.");
                 return;
             }
 
@@ -105,21 +105,32 @@ public class AppEtudiantBinome {
             int idBinomeToUpdate = (int) table.getValueAt(selectedRow, 3);
             EtudiantBinome etudiantBinomeToUpdate = etudiantBinomeDAO.getEtudiantBinomeById(idEtudiantToUpdate, idBinomeToUpdate);
 
-            
+            // JSpinner pour la saisie de la note entre 0 et 20
+            Double noteSoutenance = etudiantBinomeToUpdate.getNoteSoutenance() != null ? etudiantBinomeToUpdate.getNoteSoutenance() : 0.0;
+            SpinnerNumberModel numberModel = new SpinnerNumberModel(noteSoutenance.doubleValue(), 0.0, 20.0, 0.1);
 
-            Double nouvelleNoteSoutenance = Double.parseDouble(JOptionPane.showInputDialog(frame, "Nouvelle note de soutenance :", etudiantBinomeToUpdate.getNoteSoutenance()));
+            JSpinner spinner = new JSpinner(numberModel);
+            spinner.setEditor(new JSpinner.NumberEditor(spinner, "0.0")); 
 
-            
-            etudiantBinomeToUpdate.setNoteSoutenance(nouvelleNoteSoutenance);
+            int option = JOptionPane.showOptionDialog(frame, spinner, "Nouvelle note de soutenance", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-            etudiantBinomeDAO.updateEtudiantBinome(etudiantBinomeToUpdate);
+            if (option == JOptionPane.OK_OPTION) {
+                double nouvelleNoteSoutenance = ((Number) spinner.getValue()).doubleValue();
 
-            // Rafraîchir la table après la mise à jour
-            refreshTable();
+                // Vérifier que la note est entre 0 et 20
+                if (nouvelleNoteSoutenance >= 0 && nouvelleNoteSoutenance <= 20) {
+                    etudiantBinomeToUpdate.setNoteSoutenance(nouvelleNoteSoutenance);
+                    etudiantBinomeDAO.updateEtudiantBinome(etudiantBinomeToUpdate);
+
+                    // Rafraîchir la table après la mise à jour
+                    refreshTable();
+                } else {
+                    JOptionPane.showMessageDialog(frame, "La note doit être entre 0 et 20.");
+                }
+            }
         });
-        
-        
 
+        
         JButton deleteButton = new JButton("Supprimer");
         deleteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();

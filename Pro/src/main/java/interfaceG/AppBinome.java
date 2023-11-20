@@ -119,22 +119,39 @@ public class AppBinome {
         noteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(frame, "Sélectionnez un binôme à mettre à jour.");
+                JOptionPane.showMessageDialog(frame, "Sélectionnez un binôme à noter.");
                 return;
             }
 
             int idToUpdate = (int) table.getValueAt(selectedRow, 0);
             Binome binomeToUpdate = binomeDAO.getBinomeById(idToUpdate);
 
-            Double nouvelleNoteRapport = Double.parseDouble(JOptionPane.showInputDialog(frame, "Nouvelle note de rapport :", binomeToUpdate.getNoteRapport()));
+            // JSpinner pour la saisie de la note entre 0 et 20
+            Double noteRapport = binomeToUpdate.getNoteRapport() != null ? binomeToUpdate.getNoteRapport() : 0.0;
+            SpinnerNumberModel numberModel = new SpinnerNumberModel(noteRapport.doubleValue(), 0.0, 20.0, 0.1);
 
-            binomeToUpdate.setNoteRapport(nouvelleNoteRapport);
-            binomeDAO.updateBinome2(binomeToUpdate);
-            // Rafraîchir la table après la mise à jour
-            refreshTable();
+
+            JSpinner spinner = new JSpinner(numberModel);
+            spinner.setEditor(new JSpinner.NumberEditor(spinner, "0.0")); 
+
+            int option = JOptionPane.showOptionDialog(frame, spinner, "Nouvelle note de rapport", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            if (option == JOptionPane.OK_OPTION) {
+                double nouvelleNoteRapport = ((Number) spinner.getValue()).doubleValue();
+
+                // Vérifier que la note est entre 0 et 20
+                if (nouvelleNoteRapport >= 0 && nouvelleNoteRapport <= 20) {
+                    binomeToUpdate.setNoteRapport(nouvelleNoteRapport);
+                    binomeDAO.updateBinome2(binomeToUpdate);
+
+                    // Rafraîchir la table après la mise à jour
+                    refreshTable();
+                } else {
+                    JOptionPane.showMessageDialog(frame, "La note doit être entre 0 et 20.");
+                }
+            }
         });
-        
-        
+
         JButton deleteButton = new JButton("Supprimer");
         deleteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
