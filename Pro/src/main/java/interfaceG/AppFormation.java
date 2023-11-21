@@ -21,42 +21,47 @@ public class AppFormation {
     public AppFormation() {
         frame = new JFrame("Gestion des Formations");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        frame.getContentPane().setBackground(new Color(245, 245, 245));
+        
         formationDAO = new FormationDAO();
         List<Formation> formations = formationDAO.getAllFormations();
-
         Object[][] data = new Object[formations.size()][3];
-
         for (int i = 0; i < formations.size(); i++) {
             Formation formation = formations.get(i);
             data[i][0] = formation.getIdFormation();
             data[i][1] = formation.getNomFormation();
             data[i][2] = formation.getPromotion();
         }
-
         table = new JTable(data, columnNames);
+        table.setBackground(new Color(255, 255, 255));
+        table.setSelectionBackground(new Color(173, 216, 230));
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        JButton addButton = new JButton("Ajouter");
+        
+        JButton addButton = createStyledButton("Ajouter");
         addButton.addActionListener(e -> {
             String nomFormation = JOptionPane.showInputDialog(frame, "Nom de la Formation:");
             String promotion = JOptionPane.showInputDialog(frame, "Promotion:");
-
+            if(nomFormation == null || promotion == null) {
+            	JOptionPane.showMessageDialog(frame, "Un des champs n'a pas été spécifié !");
+                return;
+            }
             Formation nouvelleFormation = new Formation();
             nouvelleFormation.setNomFormation(nomFormation);
             nouvelleFormation.setPromotion(promotion);
-
             formationDAO.addFormation(nouvelleFormation);
-
+            
             // Rafraîchir la table après l'ajout
             refreshTable();
         });
-
         tableModel = new DefaultTableModel(data, columnNames);
         table.setModel(tableModel);
 
-        JButton updateButton = new JButton("Mettre à jour");
+        
+        
+        JButton updateButton = createStyledButton("Mettre à jour");
         updateButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
@@ -79,7 +84,9 @@ public class AppFormation {
             refreshTable();
         });
 
-        JButton deleteButton = new JButton("Supprimer");
+        
+        
+        JButton deleteButton = createStyledButton("Supprimer");
         deleteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
@@ -94,9 +101,12 @@ public class AppFormation {
             refreshTable();
         });
 
+        
+        
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(245, 245, 245));
         // Créer un bouton avec le texte "Retour au menu principal"
-        JButton retourButton = new JButton("Retour au menu principal");
+        JButton retourButton = createStyledButton("Retour au menu principal");
         // Ajouter un écouteur d'événements (ActionListener) au bouton
         retourButton.addActionListener(new ActionListener() {
         	// Lorsque le bouton est cliqué, exécuter les instructions suivantes :
@@ -116,7 +126,17 @@ public class AppFormation {
         frame.setLocationRelativeTo(null); 
         frame.setVisible(true);
     }
-
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBackground(new Color(52, 152, 219));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setMargin(new Insets(10, 20, 10, 20)); // Ajouter des marges pour un aspect visuel plus agréable
+        return button;
+    }
+    
+    
     private void refreshTable() {
         List<Formation> formations = formationDAO.getAllFormations();
         Object[][] newData = new Object[formations.size()][3];

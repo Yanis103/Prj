@@ -22,12 +22,11 @@ public class AppProjet {
     public AppProjet() {
         frame = new JFrame("Gestion des Projets");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setBackground(new Color(245, 245, 245));
 
         projetDAO = new ProjetDAO();
         List<Projet> projets = projetDAO.getAllProjets();
-
         Object[][] data = new Object[projets.size()][4];
-
         for (int i = 0; i < projets.size(); i++) {
             Projet projet = projets.get(i);
             data[i][0] = projet.getIdProjet();
@@ -35,19 +34,22 @@ public class AppProjet {
             data[i][2] = projet.getSujet();
             data[i][3] = projet.getDateRemisePrevue();
         }
-
         table = new JTable(data, columnNames);
         scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        JButton addButton = new JButton("Ajouter");
+        
+        
+        JButton addButton = createStyledButton("Ajouter");
         addButton.addActionListener(e -> {
             String nomMatiere = JOptionPane.showInputDialog(frame, "Nom de la Matière:");
             String sujet = JOptionPane.showInputDialog(frame, "Sujet du Projet:");
             String dateRemisePrevueString = JOptionPane.showInputDialog(frame, "Date Remise Prévue (YYYY-MM-DD):");
-
+            if(nomMatiere == null || sujet == null || dateRemisePrevueString == null ) {
+            	JOptionPane.showMessageDialog(frame, "Un des champs n'a pas été spécifié !");
+                return;
+            }
             LocalDate dateRemisePrevue = LocalDate.parse(dateRemisePrevueString);
-
             Projet nouveauProjet = new Projet();
             nouveauProjet.setNomMatiere(nomMatiere);
             nouveauProjet.setSujet(sujet);
@@ -58,11 +60,12 @@ public class AppProjet {
             // Rafraîchir la table après l'ajout
             refreshTable();
         });
-
         tableModel = new DefaultTableModel(data, columnNames);
         table.setModel(tableModel);
 
-        JButton updateButton = new JButton("Mettre à jour");
+        
+        
+        JButton updateButton = createStyledButton("Mettre à jour");
         updateButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
@@ -88,8 +91,10 @@ public class AppProjet {
             // Rafraîchir la table après la mise à jour
             refreshTable();
         });
-
-        JButton deleteButton = new JButton("Supprimer");
+        
+        
+        
+        JButton deleteButton = createStyledButton("Supprimer");
         deleteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
@@ -103,10 +108,13 @@ public class AppProjet {
             // Rafraîchir la table après la suppression
             refreshTable();
         });
-
+        
+        
+        
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(245, 245, 245));
         // Créer un bouton avec le texte "Retour au menu principal"
-        JButton retourButton = new JButton("Retour au menu principal");
+        JButton retourButton = createStyledButton("Retour au menu principal");
         // Ajouter un écouteur d'événements (ActionListener) au bouton
         retourButton.addActionListener(new ActionListener() {
         	// Lorsque le bouton est cliqué, exécuter les instructions suivantes :
@@ -126,6 +134,16 @@ public class AppProjet {
         frame.setLocationRelativeTo(null); 
         frame.setVisible(true);
     }
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBackground(new Color(52, 152, 219));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setMargin(new Insets(10, 20, 10, 20)); // Ajouter des marges pour un aspect visuel plus agréable
+        return button;
+    }
+    
 
     private void refreshTable() {
         List<Projet> projets = projetDAO.getAllProjets();

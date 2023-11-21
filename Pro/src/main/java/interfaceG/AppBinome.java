@@ -26,14 +26,12 @@ public class AppBinome {
     public AppBinome() {
         frame = new JFrame("Gestion des Binômes");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setBackground(new Color(245, 245, 245));
 
         binomeDAO = new BinomeDAO();
         projetDAO = new ProjetDAO();
-
         List<Binome> binomes = binomeDAO.getAllBinomes();
-
         Object[][] data = new Object[binomes.size()][5];
-
         for (int i = 0; i < binomes.size(); i++) {
             Binome binome = binomes.get(i);
             data[i][0] = binome.getIdBinome();
@@ -42,12 +40,13 @@ public class AppBinome {
             data[i][3] = binome.getBinomeReference();
             data[i][4] = binome.getDateRemiseEffective();
         }
-
         table = new JTable(data, columnNames);
         scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        JButton addButton = new JButton("Ajouter");
+        
+        
+        JButton addButton = createStyledButton("Ajouter");
         addButton.addActionListener(e -> {
             List<Projet> projets = projetDAO.getAllProjets();
             String[] projetNames = projets.stream()
@@ -60,24 +59,28 @@ public class AppBinome {
             Projet selectedProjet = projets.stream()
                     .filter(projet -> projet.getNomMatiere().equals(selectedProjetName))
                     .findFirst()
-                    .orElse(null);
-
-            
+                    .orElse(null);  
             String binomeReference = JOptionPane.showInputDialog(frame, "Référence du binôme :");
-            LocalDate dateRemiseEffective = LocalDate.parse(JOptionPane.showInputDialog(frame, "Date Remise Effective (YYYY-MM-DD)"));
-
+            String dateRemiseEffectiveString = JOptionPane.showInputDialog(frame, "Date Remise Effective (YYYY-MM-DD)");
+            
+            if(selectedProjet == null || binomeReference == null || dateRemiseEffectiveString == null ) {
+            	JOptionPane.showMessageDialog(frame, "Un des champs n'a pas été spécifié !");
+                return;
+            }
+            
+            LocalDate dateRemiseEffective = LocalDate.parse(dateRemiseEffectiveString);
             Binome nouveauBinome = new Binome(selectedProjet, null, binomeReference, dateRemiseEffective);
-
             binomeDAO.addBinome(nouveauBinome);
 
             // Rafraîchir la table après l'ajout
             refreshTable();
         });
-
         tableModel = new DefaultTableModel(data, columnNames);
         table.setModel(tableModel);
 
-        JButton updateButton = new JButton("Mettre à jour");
+        
+        
+        JButton updateButton = createStyledButton("Mettre à jour");
         updateButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
@@ -116,8 +119,9 @@ public class AppBinome {
             // Rafraîchir la table après la mise à jour
             refreshTable();
         });
-
-        JButton noteButton = new JButton("Noter");
+        
+        
+        JButton noteButton= createStyledButton("Noter");
         noteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
@@ -153,8 +157,10 @@ public class AppBinome {
                 }
             }
         });
-
-        JButton deleteButton = new JButton("Supprimer");
+        
+        
+        
+        JButton deleteButton = createStyledButton("Supprimer");
         deleteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
@@ -169,9 +175,12 @@ public class AppBinome {
             refreshTable();
         });
 
+        
+        
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(245, 245, 245));
         // Créer un bouton avec le texte "Retour au menu principal"
-        JButton retourButton = new JButton("Retour au menu principal");
+        JButton retourButton = createStyledButton("Retour au menu principal");
         // Ajouter un écouteur d'événements (ActionListener) au bouton
         retourButton.addActionListener(new ActionListener() {
         	// Lorsque le bouton est cliqué, exécuter les instructions suivantes :
@@ -192,6 +201,17 @@ public class AppBinome {
         frame.setLocationRelativeTo(null); 
         frame.setVisible(true);
     }
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBackground(new Color(52, 152, 219));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setMargin(new Insets(10, 20, 10, 20)); // Ajouter des marges pour un aspect visuel plus agréable
+        return button;
+    }
+    
+    
 
     private void refreshTable() {
         List<Binome> binomes = binomeDAO.getAllBinomes();
