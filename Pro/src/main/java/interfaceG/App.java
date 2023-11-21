@@ -38,6 +38,7 @@ public class App extends JFrame {
         /*Action studentButton */
         studentButton.addActionListener(e -> {
             AppEtudiant.main(null);
+            dispose();
         });
 
         setVisible(true);
