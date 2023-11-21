@@ -200,6 +200,7 @@ public class AppEtudiant {
         frame.add(buttonPanel, BorderLayout.NORTH);
 
         frame.pack();
+        frame.setLocationRelativeTo(null); // Centrer la fenêtre
         frame.setVisible(true);
     }
     private JButton createStyledButton(String text) {

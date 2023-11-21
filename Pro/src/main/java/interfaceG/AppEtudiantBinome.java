@@ -154,6 +154,7 @@ public class AppEtudiantBinome {
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         frame.pack();
+        frame.setLocationRelativeTo(null); 
         frame.setVisible(true);
     }
 

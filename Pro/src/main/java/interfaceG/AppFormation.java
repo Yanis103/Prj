@@ -113,6 +113,7 @@ public class AppFormation {
         buttonPanel.add(retourButton);
         frame.add(buttonPanel, BorderLayout.NORTH);
         frame.pack();
+        frame.setLocationRelativeTo(null); 
         frame.setVisible(true);
     }
 
