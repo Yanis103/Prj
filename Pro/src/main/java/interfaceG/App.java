@@ -21,28 +21,60 @@ public class App extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new GridLayout(5, 1));
 
+        // Utilisation d'une police plus élégante pour le titre
         titleLabel = new JLabel("Gestion des Projets Étudiants");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setFont(new Font("Verdana", Font.BOLD, 28));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        studentButton = createButton("Étudiants");
-        formationButton = createButton("Formations");
-        projectButton = createButton("Projets");
-        binomeButton = createButton("Binômes");
+        // Utilisation de boutons stylisés avec des couleurs vives
+        studentButton = createStyledButton("Étudiants");
+        formationButton = createStyledButton("Formations");
+        projectButton = createStyledButton("Projets");
+        binomeButton = createStyledButton("Binômes");
 
+        // Ajout des composants à la fenêtre
         add(titleLabel);
         add(studentButton);
         add(formationButton);
         add(projectButton);
         add(binomeButton);
-        /*Action studentButton */
+
+        /* Action pour le bouton Étudiants */
         studentButton.addActionListener(e -> {
             AppEtudiant.main(null);
             dispose();
         });
 
+        /* Action pour le bouton Formations */
+        formationButton.addActionListener(e -> {
+            AppFormation.main(null);
+            dispose();
+        });
+
+        /* Action pour le bouton Projets */
+        projectButton.addActionListener(e -> {
+            AppProjet.main(null);
+            dispose();
+        });
+
+        /* Action pour le bouton Binômes */
+        binomeButton.addActionListener(e -> {
+            AppBinome.main(null);
+            dispose();
+        });
+
         setVisible(true);
     }
+
+    // Méthode pour créer des boutons stylisés
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 18));
+        button.setBackground(new Color(52, 152, 219)); // Couleur de fond
+        button.setForeground(Color.WHITE); // Couleur du texte
+        button.setFocusPainted(false); // Désactiver la mise en évidence du focus
+        return button;
+    }    
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);

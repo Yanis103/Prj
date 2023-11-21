@@ -9,6 +9,8 @@ import dao.ProjetDAO;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -168,12 +170,24 @@ public class AppBinome {
         });
 
         JPanel buttonPanel = new JPanel();
+        // Créer un bouton avec le texte "Retour au menu principal"
+        JButton retourButton = new JButton("Retour au menu principal");
+        // Ajouter un écouteur d'événements (ActionListener) au bouton
+        retourButton.addActionListener(new ActionListener() {
+        	// Lorsque le bouton est cliqué, exécuter les instructions suivantes :
+            // Fermer la fenêtre actuelle
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	 frame.dispose();
+            	 App.main(null);
+            }
+        });
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(noteButton);
         buttonPanel.add(deleteButton);
-        frame.add(buttonPanel, BorderLayout.SOUTH);
-
+        buttonPanel.add(retourButton);
+        frame.add(buttonPanel, BorderLayout.NORTH);
         frame.pack();
         frame.setVisible(true);
     }

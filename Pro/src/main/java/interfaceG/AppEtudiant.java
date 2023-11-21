@@ -83,6 +83,11 @@ public class AppEtudiant {
                     .filter(formation -> formation.getNomFormation().equals(selectedFormationName))
                     .findFirst()
                     .orElse(null);
+            // On vérifie que tous les champs ont été précisés
+            if(nom == null || prenom == null || selectedFormationName == null) {
+            	JOptionPane.showMessageDialog(frame, "Un des champs n'a pas été spécifié !");
+                return;
+            }
             // Créer un nouvel objet Etudiant avec les informations fournies
             Etudiant nouveauEtudiant = new Etudiant();
             nouveauEtudiant.setNom(nom);
@@ -133,6 +138,11 @@ public class AppEtudiant {
                     .filter(formation -> formation.getNomFormation().equals(selectedFormationName))
                     .findFirst()
                     .orElse(null);
+            // On vérifie que tous les champs ont été précisés
+            if(nom == null || prenom == null || selectedFormationName == null) {
+            	JOptionPane.showMessageDialog(frame, "Un des champs n'a pas été spécifié !");
+                return;
+            }
             // Mettre à jour les propriétés de l'objet Etudiant avec les nouvelles informations
             etudiantToUpdate.setNom(nom);
             etudiantToUpdate.setPrenom(prenom);
