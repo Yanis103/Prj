@@ -42,3 +42,27 @@ CREATE TABLE EtudiantBinome (
     FOREIGN KEY (idBinome) REFERENCES Binome(idBinome) ON DELETE CASCADE,
     PRIMARY KEY (idEtudiant, idBinome)
 );
+
+-- Vue data
+CREATE VIEW dataVue AS
+SELECT
+    e.nom AS etudiantNom,
+    e.prenom AS etudiantPrenom,
+    f.nomFormation,
+    f.promotion,
+    p.nomMatiere,
+    p.sujet,
+    b.noteRapport,
+    eb.noteSoutenance,
+    b.binomeReference,
+    b.dateRemiseEffective,
+    p.dateRemisePrevue
+FROM
+    Formation f
+    NATURAL JOIN Etudiant e
+    NATURAL JOIN EtudiantBinome eb
+    NATURAL JOIN Binome b
+    NATURAL JOIN Projet p
+ORDER BY
+    binomeReference;
+
