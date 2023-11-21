@@ -34,6 +34,7 @@ public class AppEtudiant {
         // Définir le gestionnaire de disposition (layout manager) de la fenêtre
         // Dans ce cas, BorderLayout est utilisé, qui divise la fenêtre en cinq zones : Nord, Sud, Est, Ouest, Centre.
         frame.setLayout(new BorderLayout());
+        frame.getContentPane().setBackground(new Color(245, 245, 245));
         
         
         // Instancier un objet DAO pour l'entité Etudiant
@@ -54,7 +55,9 @@ public class AppEtudiant {
         }
         // Créer une table (JTable) avec les données et les noms de colonnes spécifiés
         table = new JTable(data, columnNames);
-        table.setBackground(new Color(224,224,224));
+        table.setBackground(new Color(255, 255, 255));
+        table.setSelectionBackground(new Color(173, 216, 230));
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         // Créer un panneau de défilement (JScrollPane) pour la table
         scrollPane = new JScrollPane(table);
         // Ajouter le panneau de défilement à la fenêtre au centre (zone Centre de BorderLayout)
@@ -62,7 +65,7 @@ public class AppEtudiant {
 
         
         // Créer un bouton avec le texte "Ajouter"
-        JButton addButton = new JButton("Ajouter");
+        JButton addButton = createStyledButton("Ajouter");
         // Ajouter un écouteur d'événements au bouton (utilisation d'une expression lambda)
         addButton.addActionListener(e -> {
         	// Demander à l'utilisateur le nom de l'étudiant
@@ -105,7 +108,7 @@ public class AppEtudiant {
 
         
         // Créer un bouton avec le texte "Mettre à jour"
-        JButton updateButton = new JButton("Mettre à jour");
+        JButton updateButton = createStyledButton("Mettre à jour");
         // Ajouter un écouteur d'événements au bouton (utilisation d'une expression lambda)
         updateButton.addActionListener(e -> {
         	// Récupérer l'indice de la ligne sélectionnée dans la JTable
@@ -155,7 +158,7 @@ public class AppEtudiant {
 
         
         // Créer un bouton avec le texte "Supprimer"
-        JButton deleteButton = new JButton("Supprimer");
+        JButton deleteButton = createStyledButton("Supprimer");
         // Ajouter un écouteur d'événements au bouton (utilisation d'une expression lambda)
         deleteButton.addActionListener(e -> {
         	// Récupérer l'indice de la ligne sélectionnée dans la JTable
@@ -176,8 +179,9 @@ public class AppEtudiant {
         
         // Créer un panneau pour les boutons
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(245, 245, 245));
         // Créer un bouton avec le texte "Retour au menu principal"
-        JButton retourButton = new JButton("Retour au menu principal");
+        JButton retourButton = createStyledButton("Retour au menu principal");
         // Ajouter un écouteur d'événements (ActionListener) au bouton
         retourButton.addActionListener(new ActionListener() {
         	// Lorsque le bouton est cliqué, exécuter les instructions suivantes :
@@ -197,6 +201,15 @@ public class AppEtudiant {
 
         frame.pack();
         frame.setVisible(true);
+    }
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBackground(new Color(52, 152, 219));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setMargin(new Insets(10, 20, 10, 20)); // Ajouter des marges pour un aspect visuel plus agréable
+        return button;
     }
     
     /**
