@@ -59,7 +59,11 @@ public class AppEtudiant {
         table = new JTable(data, columnNames);
         table.setBackground(new Color(255, 255, 255));
         table.setSelectionBackground(new Color(173, 216, 230));
-        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 16));
+        table.setFont(new Font("Arial", Font.PLAIN, 14)); // Changer la police pour le contenu de la table
+        table.setShowVerticalLines(true); // Afficher les lignes verticales
+        table.setShowHorizontalLines(true); // Afficher les lignes horizontales
+        table.setRowHeight(40); // Définir la hauteur des lignes
         // Créer un panneau de défilement (JScrollPane) pour la table
         scrollPane = new JScrollPane(table);
         // Ajouter le panneau de défilement à la fenêtre au centre (zone Centre de BorderLayout)
@@ -122,6 +126,7 @@ public class AppEtudiant {
                 RowFilter<Object, Object> compoundRowFilter = RowFilter.andFilter(filters);
                 // Appliquer le filtre combiné à TableRowSorter
                 sorter.setRowFilter(compoundRowFilter);
+
                 // Fermer le dialogue après l'application des filtres
                 dialog.dispose();
             });
@@ -259,9 +264,6 @@ public class AppEtudiant {
         });
         
         
-        // Créer un panneau pour les boutons
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(245, 245, 245));
         // Créer un bouton avec le texte "Retour au menu principal"
         JButton retourButton = createStyledButton("Retour au menu principal");
         // Ajouter un écouteur d'événements (ActionListener) au bouton
@@ -274,6 +276,10 @@ public class AppEtudiant {
             	 App.main(null);
             }
         });
+        
+        // Créer un panneau pour les boutons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(245, 245, 245));
         // Ajouter les boutons (Ajouter, Mettre à jour, Supprimer, Retour au menu principal) au panneau
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
@@ -281,7 +287,6 @@ public class AppEtudiant {
         buttonPanel.add(boutonFiltrer);
         buttonPanel.add(retourButton);
         frame.add(buttonPanel, BorderLayout.NORTH);
-
         frame.pack();
         frame.setLocationRelativeTo(null); // Centrer la fenêtre
         frame.setVisible(true);

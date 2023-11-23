@@ -52,33 +52,27 @@ public class AppBinome {
             String[] projetNames = projets.stream()
                     .map(Projet::getNomMatiere)
                     .toArray(String[]::new);
-
             String selectedProjetName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez la Matière du Projet :",
                     "Sélection de la Matière du Projet", JOptionPane.PLAIN_MESSAGE, null, projetNames, projetNames[0]);
-
             Projet selectedProjet = projets.stream()
                     .filter(projet -> projet.getNomMatiere().equals(selectedProjetName))
                     .findFirst()
                     .orElse(null);  
             String binomeReference = JOptionPane.showInputDialog(frame, "Référence du binôme :");
-            String dateRemiseEffectiveString = JOptionPane.showInputDialog(frame, "Date Remise Effective (YYYY-MM-DD)");
-            
+            String dateRemiseEffectiveString = JOptionPane.showInputDialog(frame, "Date Remise Effective (YYYY-MM-DD)"); 
             if(selectedProjet == null || binomeReference == null || dateRemiseEffectiveString == null ) {
             	JOptionPane.showMessageDialog(frame, "Un des champs n'a pas été spécifié !");
                 return;
-            }
-            
+            }     
             LocalDate dateRemiseEffective = LocalDate.parse(dateRemiseEffectiveString);
             Binome nouveauBinome = new Binome(selectedProjet, null, binomeReference, dateRemiseEffective);
             binomeDAO.addBinome(nouveauBinome);
-
             // Rafraîchir la table après l'ajout
             refreshTable();
         });
         tableModel = new DefaultTableModel(data, columnNames);
         table.setModel(tableModel);
 
-        
         
         JButton updateButton = createStyledButton("Mettre à jour");
         updateButton.addActionListener(e -> {
@@ -87,7 +81,6 @@ public class AppBinome {
                 JOptionPane.showMessageDialog(frame, "Sélectionnez un binôme à mettre à jour.");
                 return;
             }
-
             int idToUpdate = (int) table.getValueAt(selectedRow, 0);
             Binome binomeToUpdate = binomeDAO.getBinomeById(idToUpdate);
 
@@ -95,7 +88,6 @@ public class AppBinome {
             String[] projetNames = projets.stream()
                     .map(Projet::getNomMatiere)
                     .toArray(String[]::new);
-
             String selectedProjetName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez la Matière du Projet :",
                     "Sélection de la Matière du Projet", JOptionPane.PLAIN_MESSAGE, null, projetNames, projetNames[0]);
 
@@ -103,19 +95,13 @@ public class AppBinome {
                     .filter(projet -> projet.getNomMatiere().equals(selectedProjetName))
                     .findFirst()
                     .orElse(null);
-
-         
             String binomeReference = JOptionPane.showInputDialog(frame, "Nouvelle référence du binôme :", binomeToUpdate.getBinomeReference());
             String nouvelleDateStr = JOptionPane.showInputDialog(frame, "Nouvelle Date Remise Effective (YYYY-MM-DD)", binomeToUpdate.getDateRemiseEffective());
             LocalDate dateRemiseEffective = LocalDate.parse(nouvelleDateStr);
-
             binomeToUpdate.setProjet(selectedProjet);
-        
             binomeToUpdate.setBinomeReference(binomeReference);
             binomeToUpdate.setDateRemiseEffective(dateRemiseEffective);
-
             binomeDAO.updateBinome(binomeToUpdate);
-
             // Rafraîchir la table après la mise à jour
             refreshTable();
         });
@@ -128,28 +114,20 @@ public class AppBinome {
                 JOptionPane.showMessageDialog(frame, "Sélectionnez un binôme à noter.");
                 return;
             }
-
             int idToUpdate = (int) table.getValueAt(selectedRow, 0);
             Binome binomeToUpdate = binomeDAO.getBinomeById(idToUpdate);
-
             // JSpinner pour la saisie de la note entre 0 et 20
             Double noteRapport = binomeToUpdate.getNoteRapport() != null ? binomeToUpdate.getNoteRapport() : 0.0;
             SpinnerNumberModel numberModel = new SpinnerNumberModel(noteRapport.doubleValue(), 0.0, 20.0, 0.1);
-
-
             JSpinner spinner = new JSpinner(numberModel);
             spinner.setEditor(new JSpinner.NumberEditor(spinner, "0.0")); 
-
             int option = JOptionPane.showOptionDialog(frame, spinner, "Nouvelle note de rapport", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-
             if (option == JOptionPane.OK_OPTION) {
                 double nouvelleNoteRapport = ((Number) spinner.getValue()).doubleValue();
-
                 // Vérifier que la note est entre 0 et 20
                 if (nouvelleNoteRapport >= 0 && nouvelleNoteRapport <= 20) {
                     binomeToUpdate.setNoteRapport(nouvelleNoteRapport);
                     binomeDAO.updateBinome2(binomeToUpdate);
-
                     // Rafraîchir la table après la mise à jour
                     refreshTable();
                 } else {
@@ -159,7 +137,6 @@ public class AppBinome {
         });
         
         
-        
         JButton deleteButton = createStyledButton("Supprimer");
         deleteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
@@ -167,18 +144,13 @@ public class AppBinome {
                 JOptionPane.showMessageDialog(frame, "Sélectionnez un binôme à supprimer.");
                 return;
             }
-
             int idToDelete = (int) table.getValueAt(selectedRow, 0);
             binomeDAO.deleteBinome(idToDelete);
-
             // Rafraîchir la table après la suppression
             refreshTable();
         });
-
         
         
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(245, 245, 245));
         // Créer un bouton avec le texte "Retour au menu principal"
         JButton retourButton = createStyledButton("Retour au menu principal");
         // Ajouter un écouteur d'événements (ActionListener) au bouton
@@ -191,6 +163,10 @@ public class AppBinome {
             	 App.main(null);
             }
         });
+        
+        
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(245, 245, 245));
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(noteButton);

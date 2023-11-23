@@ -32,11 +32,18 @@ public class AppFormation {
             data[i][1] = formation.getNomFormation();
             data[i][2] = formation.getPromotion();
         }
+        // Créer une table (JTable) avec les données et les noms de colonnes spécifiés
         table = new JTable(data, columnNames);
         table.setBackground(new Color(255, 255, 255));
         table.setSelectionBackground(new Color(173, 216, 230));
-        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 16));
+        table.setFont(new Font("Arial", Font.PLAIN, 14)); // Changer la police pour le contenu de la table
+        table.setShowVerticalLines(true); // Afficher les lignes verticales
+        table.setShowHorizontalLines(true); // Afficher les lignes horizontales
+        table.setRowHeight(40); // Définir la hauteur des lignes
+        // Créer un panneau de défilement (JScrollPane) pour la table
         scrollPane = new JScrollPane(table);
+        // Ajouter le panneau de défilement à la fenêtre au centre (zone Centre de BorderLayout)
         frame.add(scrollPane, BorderLayout.CENTER);
 
         
@@ -68,18 +75,13 @@ public class AppFormation {
                 JOptionPane.showMessageDialog(frame, "Sélectionnez une formation à mettre à jour.");
                 return;
             }
-
             int idToUpdate = (int) table.getValueAt(selectedRow, 0);
             Formation formationToUpdate = formationDAO.getFormationById(idToUpdate);
-
             String nomFormation = JOptionPane.showInputDialog(frame, "Nouveau nom de la formation:", formationToUpdate.getNomFormation());
             String promotion = JOptionPane.showInputDialog(frame, "Nouvelle promotion:", formationToUpdate.getPromotion());
-
             formationToUpdate.setNomFormation(nomFormation);
             formationToUpdate.setPromotion(promotion);
-
             formationDAO.updateFormation(formationToUpdate);
-
             // Rafraîchir la table après la mise à jour
             refreshTable();
         });
@@ -93,18 +95,13 @@ public class AppFormation {
                 JOptionPane.showMessageDialog(frame, "Sélectionnez une formation à supprimer.");
                 return;
             }
-
             int idToDelete = (int) table.getValueAt(selectedRow, 0);
             formationDAO.deleteFormation(idToDelete);
-
             // Rafraîchir la table après la suppression
             refreshTable();
         });
-
         
         
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(245, 245, 245));
         // Créer un bouton avec le texte "Retour au menu principal"
         JButton retourButton = createStyledButton("Retour au menu principal");
         // Ajouter un écouteur d'événements (ActionListener) au bouton
@@ -117,6 +114,10 @@ public class AppFormation {
             	 App.main(null);
             }
         });
+
+        
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(245, 245, 245));
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
