@@ -27,10 +27,10 @@ public class App extends JFrame {
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Utilisation de boutons stylisés avec des couleurs vives
-        studentButton = createStyledButton("Étudiants");
-        formationButton = createStyledButton("Formations");
-        projectButton = createStyledButton("Projets");
-        binomeButton = createStyledButton("Binômes");
+        studentButton = createStyledButton("Étudiants","",52,152,219);
+        formationButton = createStyledButton("Formations","/icon_etudiant.jpg",52,152,219);
+        projectButton = createStyledButton("Projets","/icon_etudiant.jpg",52,152,219);
+        binomeButton = createStyledButton("Binômes","/icon_etudiant.jpg",52,152,219);
 
         // Ajout des composants à la fenêtre
         add(titleLabel);
@@ -67,12 +67,18 @@ public class App extends JFrame {
     }
 
     // Méthode pour créer des boutons stylisés
-    private JButton createStyledButton(String text) {
+    private JButton createStyledButton(String text, String iconPath, int r, int g, int b) {
         JButton button = new JButton(text);
-        button.setFont(new Font("Arial", Font.BOLD, 18));
-        button.setBackground(new Color(52, 152, 219)); // Couleur de fond
+        ImageIcon icon = new ImageIcon(iconPath);
+        JLabel label = new JLabel(icon, JLabel.LEFT);
+        // Définir le label comme composant du bouton
+        button.add(label);
+        
+        button.setFont(new Font("Arial", Font.BOLD, 20));
+        button.setBackground(new Color(r,g,b)); // Couleur de fond
         button.setForeground(Color.WHITE); // Couleur du texte
         button.setFocusPainted(false); // Désactiver la mise en évidence du focus
+        
         return button;
     }    
 

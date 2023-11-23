@@ -1,20 +1,30 @@
 package classe;
 
+/**
+ * Cette classe permet de rassembler l'ensemble des informations et de calculer la note finale de l'étudiant pour un projet précis
+ */
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class VueData {
+	/*Nom et prénom de l'étudiant*/
     private String etudiantNom;
     private String etudiantPrenom;
+    /*Nom de la formation que suit l'étudiant ainsi que sa promotion*/
     private String nomFormation;
     private String promotion;
+    /*le sujet du projet ainsi que la matière et la date de remise prévue*/
     private String nomMatiere;
     private String sujet;
+    private LocalDate dateRemisePrevue; 
+    /*la note de rapport du binome*/
     private Double noteRapport;
+    /*la note de soutenance de l'étudiant*/
     private Double noteSoutenance;
     private String binomeReference;
+    /*la date de remise du projet*/
     private LocalDate dateRemiseEffective;
-    private LocalDate dateRemisePrevue; 
+    
     private Double noteFinale; 
 
     // Constructeur

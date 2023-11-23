@@ -1,6 +1,7 @@
 package interfaceG;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import classe.Etudiant;
 import classe.Formation;  // Importer la classe Formation
@@ -9,6 +10,7 @@ import dao.FormationDAO;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -63,6 +65,86 @@ public class AppEtudiant {
         // Ajouter le panneau de défilement à la fenêtre au centre (zone Centre de BorderLayout)
         frame.add(scrollPane, BorderLayout.CENTER);
 
+        
+        // Créer un bouton avec le texte "Filtrer"
+        JButton boutonFiltrer = createStyledButton("Filtrer");
+        // Ajouter un écouteur d'événements au bouton (utilisation d'une expression lambda)
+        boutonFiltrer.addActionListener(e -> {
+            // Créer un dialogue de filtrage
+            JDialog dialog = new JDialog(frame, "Filtrer");
+            dialog.setLayout(new GridLayout(5, 2));
+            // Ajouter des champs pour Numéro Étudiant, Nom, Prénom et Formation
+            JTextField numeroEtudiantField = new JTextField();
+            JTextField nomField = new JTextField();
+            JTextField prenomField = new JTextField();
+            List<Formation> formations = formationDAO.getAllFormations();
+            String[] formationNames = formations.stream()
+                    .map(Formation::getNomFormation)
+                    .toArray(String[]::new);
+            JComboBox<String> formationComboBox = new JComboBox<>(formationNames);
+            dialog.add(new JLabel("Numéro Étudiant:"));
+            dialog.add(numeroEtudiantField);
+            dialog.add(new JLabel("Nom:"));
+            dialog.add(nomField);
+            dialog.add(new JLabel("Prénom:"));
+            dialog.add(prenomField);
+            dialog.add(new JLabel("Formation:"));
+            dialog.add(formationComboBox);
+            // Ajouter un bouton de filtrage dans le dialogue
+            JButton filtrerButton = new JButton("Filtrer");
+            filtrerButton.addActionListener(filtrerEvent -> {
+                // Récupérer les valeurs des champs de filtrage
+                String numeroEtudiant = numeroEtudiantField.getText();
+                String nom = nomField.getText();
+                String prenom = prenomField.getText();
+                String selectedFormationName = (String) formationComboBox.getSelectedItem();
+
+             // Créer un TableRowSorter pour la tableModel
+                TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+                table.setRowSorter(sorter);
+
+                // Créer une liste pour stocker les filtres
+                List<RowFilter<Object, Object>> filters = new ArrayList<>();
+                // Ajouter les filtres non vides aux critères de filtrage
+                if (!numeroEtudiant.isEmpty()) {
+                    filters.add(RowFilter.regexFilter(numeroEtudiant, 0));
+                }
+                if (!nom.isEmpty()) {
+                    filters.add(RowFilter.regexFilter(nom, 1));
+                }
+                if (!prenom.isEmpty()) {
+                    filters.add(RowFilter.regexFilter(prenom, 2));
+                }
+                if (!selectedFormationName.isEmpty()) {
+                    filters.add(RowFilter.regexFilter(selectedFormationName, 3));
+                }
+                // Combinez les filtres en un seul
+                RowFilter<Object, Object> compoundRowFilter = RowFilter.andFilter(filters);
+                // Appliquer le filtre combiné à TableRowSorter
+                sorter.setRowFilter(compoundRowFilter);
+                // Fermer le dialogue après l'application des filtres
+                dialog.dispose();
+            });
+            // Ajouter un bouton Annuler pour fermer le dialogue sans filtrer
+            // Ajouter un bouton Annuler pour fermer le dialogue et annuler le filtre
+            JButton annulerButton = new JButton("Annuler");
+            annulerButton.addActionListener(cancelEvent -> {
+                // Réinitialiser le tri et le filtre de la table à son état d'origine
+                table.setRowSorter(null);
+                dialog.dispose();
+            });
+            dialog.add(filtrerButton);
+            dialog.add(annulerButton);
+            dialog.setSize(300, 200);
+            dialog.setLocationRelativeTo(frame);
+            dialog.setVisible(true);
+        });
+        // Créer un modèle de table par défaut avec les données (data) et les noms de colonnes (columnNames)
+        tableModel = new DefaultTableModel(data, columnNames);
+        // Appliquer le modèle de table à la JTable
+        table.setModel(tableModel);
+        
+        
         
         // Créer un bouton avec le texte "Ajouter"
         JButton addButton = createStyledButton("Ajouter");
@@ -196,6 +278,7 @@ public class AppEtudiant {
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
+        buttonPanel.add(boutonFiltrer);
         buttonPanel.add(retourButton);
         frame.add(buttonPanel, BorderLayout.NORTH);
 
