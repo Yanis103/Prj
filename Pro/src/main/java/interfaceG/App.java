@@ -17,9 +17,12 @@ public class App extends JFrame {
     public App() {
         setTitle("Gestion des Projets Étudiants");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 400);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+        setSize(screenWidth, screenHeight);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(5, 1));
+        setLayout(new GridLayout(6, 1));
 
         // Utilisation d'une police plus élégante pour le titre
         titleLabel = new JLabel("Gestion des Projets Étudiants");
@@ -27,17 +30,19 @@ public class App extends JFrame {
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Utilisation de boutons stylisés avec des couleurs vives
-        studentButton = createStyledButton("Étudiants","",52,152,219);
+        studentButton = createStyledButton("Étudiants"," ",52,152,219);
         formationButton = createStyledButton("Formations","/icon_etudiant.jpg",52,152,219);
         projectButton = createStyledButton("Projets","/icon_etudiant.jpg",52,152,219);
         binomeButton = createStyledButton("Binômes","/icon_etudiant.jpg",52,152,219);
-
+        JButton boutonVisualisation = createStyledButton("Visualisation des notes"," ",52,152,219);
+        
         // Ajout des composants à la fenêtre
         add(titleLabel);
         add(studentButton);
         add(formationButton);
         add(projectButton);
         add(binomeButton);
+        add(boutonVisualisation);
 
         /* Action pour le bouton Étudiants */
         studentButton.addActionListener(e -> {
@@ -60,6 +65,12 @@ public class App extends JFrame {
         /* Action pour le bouton Binômes */
         binomeButton.addActionListener(e -> {
             AppBinome.main(null);
+            dispose();
+        });
+        
+        /* Action pour le bouton Visualisation des notes */
+        boutonVisualisation.addActionListener(e -> {
+            AppVueData.main(null);
             dispose();
         });
 

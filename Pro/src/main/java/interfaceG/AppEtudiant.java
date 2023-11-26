@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -38,6 +37,10 @@ public class AppEtudiant {
         frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(new Color(245, 245, 245));
         
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+        frame.setSize(screenWidth, screenHeight);
         
         // Instancier un objet DAO pour l'entité Etudiant
         etudiantDAO = new EtudiantDAO();
@@ -287,9 +290,10 @@ public class AppEtudiant {
         buttonPanel.add(boutonFiltrer);
         buttonPanel.add(retourButton);
         frame.add(buttonPanel, BorderLayout.NORTH);
-        frame.pack();
+        frame.setSize(screenWidth, screenHeight); // Utiliser setSize au lieu de pack
         frame.setLocationRelativeTo(null); // Centrer la fenêtre
         frame.setVisible(true);
+
     }
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);

@@ -25,6 +25,10 @@ public class AppProjet {
 
     public AppProjet() {
         frame = new JFrame("Gestion des Projets");
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+        frame.setSize(screenWidth, screenHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(new Color(245, 245, 245));
 
@@ -215,8 +219,8 @@ public class AppProjet {
         buttonPanel.add(boutonFiltrer);
         buttonPanel.add(retourButton);
         frame.add(buttonPanel, BorderLayout.NORTH);
-        frame.pack();
-        frame.setLocationRelativeTo(null); 
+        frame.setSize(screenWidth, screenHeight); // Utiliser setSize au lieu de pack
+        frame.setLocationRelativeTo(null); // Centrer la fenêtre
         frame.setVisible(true);
     }
     private JButton createStyledButton(String text) {

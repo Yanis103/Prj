@@ -22,6 +22,10 @@ public class AppFormation {
         frame = new JFrame("Gestion des Formations");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(new Color(245, 245, 245));
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+        frame.setSize(screenWidth, screenHeight);
         
         formationDAO = new FormationDAO();
         List<Formation> formations = formationDAO.getAllFormations();
@@ -123,9 +127,10 @@ public class AppFormation {
         buttonPanel.add(deleteButton);
         buttonPanel.add(retourButton);
         frame.add(buttonPanel, BorderLayout.NORTH);
-        frame.pack();
-        frame.setLocationRelativeTo(null); 
+        frame.setSize(screenWidth, screenHeight); // Utiliser setSize au lieu de pack
+        frame.setLocationRelativeTo(null); // Centrer la fenêtre
         frame.setVisible(true);
+
     }
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
