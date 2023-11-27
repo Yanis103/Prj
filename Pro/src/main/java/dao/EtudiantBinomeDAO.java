@@ -11,7 +11,7 @@ import classe.Binome;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 /**
  * Cette class permet d'effectuer des opérations sur la table EtudiantBinome de la base de données Projet.
  */
@@ -202,7 +202,26 @@ public class EtudiantBinomeDAO {
             e.printStackTrace();
         }
 
-        return binome;
+        return binome; 
     }
+     
+    public Etudiant[] getEtudiantsByIdBinome(int idBinome){
+    	Etudiant[]etudiants = new Etudiant[2];
+    	try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM EtudiantBinome WHERE idBinome = ?");
+            statement.setInt(1, idBinome);
+            ResultSet resultSet = statement.executeQuery();
+            int i = 0;
+            while(resultSet.next()) {
+                int id = resultSet.getInt("idEtudiant");
+                etudiants[i] = getEtudiantById(id);
+                i+= 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	return etudiants;
+    }
+    
 
 }

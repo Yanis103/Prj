@@ -15,7 +15,7 @@ public class EtudiantBinome {
     public EtudiantBinome() {
         // Constructeur par défaut
     }
-
+ 
     public EtudiantBinome(Etudiant etudiant, Binome binome, Double noteSoutenance) {
         this.etudiant = etudiant;
         this.binome = binome;

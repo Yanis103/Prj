@@ -1,5 +1,4 @@
 package interfaceG;
-
 import javax.swing.table.DefaultTableModel;
 
 import classe.Binome;
@@ -29,31 +28,37 @@ public class AppBinome {
     private EtudiantDAO etudiantDAO;
     private EtudiantBinomeDAO etudiantBinomeDAO;
     private DefaultTableModel tableModel;
-    private final String[] columnNames = {"ID", "Binôme Référence","Projet", "Date Remise Effective","Note Rapport"};
+    private final String[] columnNames = {"ID", "Binôme Référence","Projet", "Sujet","Etudiant 1","Etudiant 2","Date Remise Effective","Note Rapport"};
     private JPanel buttonPanel;
     
     public AppBinome() {
+    	/*	Création de la Frame	*/
         frame = new JFrame("Gestion des Binômes");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
-        frame.setSize(screenWidth, screenHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(new Color(245, 245, 245));
-
+        
         binomeDAO = new BinomeDAO();
         projetDAO = new ProjetDAO();
         etudiantDAO = new EtudiantDAO();
-        etudiantBinomeDAO = new EtudiantBinomeDAO();
+        etudiantBinomeDAO = new EtudiantBinomeDAO(); 
         List<Binome> binomes = binomeDAO.getAllBinomes();
-        Object[][] data = new Object[binomes.size()][5];
+        Object[][] data = new Object[binomes.size()][8];
         for (int i = 0; i < binomes.size(); i++) {
             Binome binome = binomes.get(i);
-            data[i][0] = binome.getIdBinome();
+            int idBinome = binome.getIdBinome();
+            data[i][0] = idBinome;
             data[i][1] = binome.getBinomeReference();
             data[i][2] = binome.getProjet().getNomMatiere();  // Utiliser le nom de la matière du projet
-            data[i][4] = binome.getNoteRapport();
-            data[i][3] = binome.getDateRemiseEffective();
+            data[i][3] = binome.getProjet().getSujet();
+            Etudiant[] etudiants = etudiantBinomeDAO.getEtudiantsByIdBinome(idBinome);
+            data[i][4] = etudiants[0] == null ? " " : etudiants[0].getNom()+" "+etudiants[0].getPrenom();
+            data[i][5] = etudiants[1] == null ? " " : etudiants[1].getNom()+" "+etudiants[1].getPrenom();
+            data[i][6] = binome.getDateRemiseEffective();
+            data[i][7] = binome.getNoteRapport();
+            
         }
         // Créer une table (JTable) avec les données et les noms de colonnes spécifiés
         table = new JTable(data, columnNames);
@@ -66,7 +71,6 @@ public class AppBinome {
         table.setRowHeight(40); // Définir la hauteur des lignes
         scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
-
         
         
         JButton addButton = createStyledButton("Ajouter");
@@ -81,7 +85,7 @@ public class AppBinome {
             Projet selectedProjet = projets.stream()
                     .filter(projet -> projet.getNomMatiere().equals(selectedProjetName))
                     .findFirst()
-                    .orElse(null);  
+                    .orElse(null);
             String binomeReference = JOptionPane.showInputDialog(frame, "Référence du binôme :");
             LocalDate dateRemiseEffective = LocalDate.parse("2023-01-01");
             if(selectedProjet == null || binomeReference == null || dateRemiseEffective == null ) {
@@ -92,23 +96,19 @@ public class AppBinome {
             binomeDAO.addBinome(nouveauBinome);
             /*Création des EtudiantBinome et les ajouter dans la base de données*/
             /*Spécifier le nom et le prenom de l'étudiant 1*/
-            List<Binome> binomesTemp = binomeDAO.getAllBinomes();
             List<Etudiant> etudiants = etudiantDAO.getAllEtudiants();
             String[] etudiantNames = etudiants.stream()
                     .map(etudiant -> etudiant.getNom() + " " + etudiant.getPrenom())
                     .toArray(String[]::new);
-
+ 
             String selectedEtudiantName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez l'Étudiant :",
                     "Sélection de l'Étudiant 1", JOptionPane.PLAIN_MESSAGE, null, etudiantNames, etudiantNames[0]);
             Etudiant selectedEtudiant = etudiants.stream()
                     .filter(etudiant -> (etudiant.getNom() + " " + etudiant.getPrenom()).equals(selectedEtudiantName))
                     .findFirst()
                     .orElse(null);
-            Binome selectedBinome = binomesTemp.stream()
-                    .filter(binome -> binome.getBinomeReference().equals(binomeReference))
-                    .findFirst()
-                    .orElse(null);
-            EtudiantBinome nouvelEtudiantBinome = new EtudiantBinome(selectedEtudiant, selectedBinome, null);
+           
+            EtudiantBinome nouvelEtudiantBinome = new EtudiantBinome(selectedEtudiant, nouveauBinome, null);
             try {
             	etudiantBinomeDAO.addEtudiantBinome(nouvelEtudiantBinome);
             }catch(SQLException s) {
@@ -130,22 +130,19 @@ public class AppBinome {
                     .filter(etudiant -> (etudiant.getNom() + " " + etudiant.getPrenom()).equals(selectedEtudiantName2))
                     .findFirst()
                     .orElse(null);
-            Binome selectedBinome2 = binomesTemp.stream()
-                    .filter(binome -> binome.getBinomeReference().equals(binomeReference))
-                    .findFirst()
-                    .orElse(null);
-            EtudiantBinome nouvelEtudiantBinome2 = new EtudiantBinome(selectedEtudiant2, selectedBinome2, null);
+             
+            EtudiantBinome nouvelEtudiantBinome2 = new EtudiantBinome(selectedEtudiant2, nouveauBinome, null);
             try {
             	etudiantBinomeDAO.addEtudiantBinome(nouvelEtudiantBinome2);
             }
             catch(SQLException s) {
-            	JOptionPane.showMessageDialog(frame, s.getMessage());
-                return;
+            	JOptionPane.showMessageDialog(frame, "Les deux étudiants doivent etre différents !");
             }
             catch(PlusDeDeuxEtudiants s) {
             	JOptionPane.showMessageDialog(frame, s.getMessage());
-                return;
+                
             }
+            
             // Rafraîchir la table après l'ajout
             refreshTable();
         });
@@ -268,15 +265,19 @@ public class AppBinome {
     
     private void refreshTable() {
         List<Binome> binomes = binomeDAO.getAllBinomes();
-        Object[][] newData = new Object[binomes.size()][5];
-
+        Object[][] newData = new Object[binomes.size()][8];
         for (int i = 0; i < binomes.size(); i++) {
-            Binome binome = binomes.get(i);
-            newData[i][0] = binome.getIdBinome();
-            newData[i][1] = binome.getProjet().getNomMatiere();
-            newData[i][4] = binome.getNoteRapport()== null ? "" : binome.getNoteRapport();
-            newData[i][2] = binome.getBinomeReference();
-            newData[i][3] = binome.getDateRemiseEffective();
+                Binome binome = binomes.get(i);
+                int idBinome = binome.getIdBinome();
+                newData[i][0] = idBinome;
+                newData[i][1] = binome.getBinomeReference();
+                newData[i][2] = binome.getProjet().getNomMatiere();  // Utiliser le nom de la matière du projet
+                newData[i][3] = binome.getProjet().getSujet();
+                Etudiant[] etudiants = etudiantBinomeDAO.getEtudiantsByIdBinome(idBinome);
+                newData[i][4] = etudiants[0] == null ? " " : etudiants[0].getNom()+" "+etudiants[0].getPrenom();
+                newData[i][5] = etudiants[1] == null ? " " : etudiants[1].getNom()+" "+etudiants[1].getPrenom();
+                newData[i][6] = binome.getDateRemiseEffective();
+                newData[i][7] = binome.getNoteRapport()== null ? "" : binome.getNoteRapport();         
         }
 
         tableModel.setDataVector(newData, columnNames);

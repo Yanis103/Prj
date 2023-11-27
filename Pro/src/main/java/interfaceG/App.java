@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.List;
-
+ 
 public class App extends JFrame {
     private JButton studentButton, formationButton, projectButton, binomeButton,notationButton;
     private JLabel titleLabel;
@@ -23,11 +23,12 @@ public class App extends JFrame {
         setSize(screenWidth, screenHeight);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(7, 1));
-
+        getContentPane().setBackground(Color.WHITE);
         // Utilisation d'une police plus élégante pour le titre
         titleLabel = new JLabel("Gestion des Projets Étudiants");
         titleLabel.setFont(new Font("Verdana", Font.BOLD, 28));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setForeground(new Color(52, 152, 219));
  
         // Utilisation de boutons stylisés avec des couleurs vives
         studentButton = createStyledButton("Étudiants"," ",52,152,219);
@@ -100,42 +101,6 @@ public class App extends JFrame {
         return button;
     }    
 
-    private JButton createButton(String text) {
-        JButton button = new JButton(text);
-        button.setFont(new Font("Arial", Font.PLAIN, 18));
-        button.setForeground(Color.BLUE);
-        button.setFocusPainted(false);
-        button.setBorderPainted(false);
-        button.setContentAreaFilled(false);
-        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (button.getText().equals("Étudiants")) {
-                    /*new StudentApp().setVisible(true);*/
-                } else if (button.getText().equals("Formations")) {
-                    // Action pour afficher les formations
-                } else if (button.getText().equals("Projets")) {
-                    // Action pour afficher les projets
-                } else if (button.getText().equals("Binômes")) {
-                    // Action pour afficher les binômes
-                }
-            }
-        });
-
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setForeground(Color.RED);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button.setForeground(Color.BLUE);
-            }
-        });
-
-        return button;
-    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(App::new);

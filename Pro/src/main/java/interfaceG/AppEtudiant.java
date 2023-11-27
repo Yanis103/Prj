@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 
 
 public class AppEtudiant {
-    private JFrame frame;
+    private JFrame frame; 
     private JTable table;
     private JScrollPane scrollPane;
     private EtudiantDAO etudiantDAO;
@@ -34,8 +34,7 @@ public class AppEtudiant {
         // Définir le gestionnaire de disposition (layout manager) de la fenêtre
         // Dans ce cas, BorderLayout est utilisé, qui divise la fenêtre en cinq zones : Nord, Sud, Est, Ouest, Centre.
         frame.setLayout(new BorderLayout());
-        frame.getContentPane().setBackground(new Color(245, 245, 245));
-          
+        frame.getContentPane().setBackground(Color.WHITE);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
