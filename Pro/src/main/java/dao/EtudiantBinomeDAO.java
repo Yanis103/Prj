@@ -3,6 +3,7 @@ package dao;
 import classe.EtudiantBinome;
 import classe.Formation;
 import classe.Projet;
+import exception.PlusDeDeuxEtudiants;
 import classe.Etudiant;
 import classe.Binome;
 
@@ -25,9 +26,9 @@ public class EtudiantBinomeDAO {
             connection = Connexion.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        } 
     }
-    
+   
     public List<EtudiantBinome> getAllEtudiantBinomes() {
         List<EtudiantBinome> etudiantBinomes = new ArrayList<>();
 
@@ -64,22 +65,21 @@ public class EtudiantBinomeDAO {
     /**
      * Permet d'ajouter l'étudiant dont le numéro étudiant est etudiantBinome.getEtudiant() dans le binome dont l'identifiant est etudiantBinome.getBinome().getIdBinome() 
      */
-    public void addEtudiantBinome(EtudiantBinome etudiantBinome) {
-        try {
+    public void addEtudiantBinome(EtudiantBinome etudiantBinome)throws PlusDeDeuxEtudiants, SQLException {
         	/*On vérfie au préalable que le binome n'est pas complet sinon ajout impossible*/
         	int idBinome = etudiantBinome.getBinome().getIdBinome();
         	String verifQuery = "SELECT COUNT(*) AS nombre_etudiants FROM EtudiantBinome WHERE idBinome = ?";
         	PreparedStatement statementVerif = connection.prepareStatement(verifQuery);
         	statementVerif.setInt(1, idBinome);
         	ResultSet resultSet = statementVerif.executeQuery();
-
+ 
         	if (resultSet.next()) {
         	    int nombreEtudiants = resultSet.getInt("nombre_etudiants");
         	    if (nombreEtudiants >= 2) {
-        	        throw new SQLException("L'ajout de l'étudiant au binôme a échoué ; le binôme comporte déjà deux étudiants.");
+        	        throw new PlusDeDeuxEtudiants();
         	    }
         	} 
-        	
+        	 
         	String query = "INSERT INTO EtudiantBinome (idEtudiant, idBinome, noteSoutenance) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, etudiantBinome.getEtudiant().getIdEtudiant());
@@ -87,9 +87,7 @@ public class EtudiantBinomeDAO {
             statement.setObject(3, etudiantBinome.getNoteSoutenance());
 
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+       
     }
     
     

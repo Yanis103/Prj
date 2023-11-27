@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class App extends JFrame {
-    private JButton studentButton, formationButton, projectButton, binomeButton;
+    private JButton studentButton, formationButton, projectButton, binomeButton,notationButton;
     private JLabel titleLabel;
 
     public App() {
@@ -22,26 +22,28 @@ public class App extends JFrame {
         int screenHeight = (int) screenSize.getHeight();
         setSize(screenWidth, screenHeight);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(6, 1));
+        setLayout(new GridLayout(7, 1));
 
         // Utilisation d'une police plus élégante pour le titre
         titleLabel = new JLabel("Gestion des Projets Étudiants");
         titleLabel.setFont(new Font("Verdana", Font.BOLD, 28));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
+ 
         // Utilisation de boutons stylisés avec des couleurs vives
         studentButton = createStyledButton("Étudiants"," ",52,152,219);
-        formationButton = createStyledButton("Formations","/icon_etudiant.jpg",52,152,219);
-        projectButton = createStyledButton("Projets","/icon_etudiant.jpg",52,152,219);
-        binomeButton = createStyledButton("Binômes","/icon_etudiant.jpg",52,152,219);
+        formationButton = createStyledButton("Formations"," ",52,152,219);
+        projectButton = createStyledButton("Projets"," ",52,152,219);
+        binomeButton = createStyledButton("Gestion des binomes"," ",52,152,219);
+        notationButton = createStyledButton("Notation"," ",52,152,219);
         JButton boutonVisualisation = createStyledButton("Visualisation des notes"," ",52,152,219);
-        
+         
         // Ajout des composants à la fenêtre
         add(titleLabel);
         add(studentButton);
         add(formationButton);
         add(projectButton);
         add(binomeButton);
+        add(notationButton);
         add(boutonVisualisation);
 
         /* Action pour le bouton Étudiants */
@@ -65,6 +67,11 @@ public class App extends JFrame {
         /* Action pour le bouton Binômes */
         binomeButton.addActionListener(e -> {
             AppBinome.main(null);
+            dispose();
+        });
+        
+        notationButton.addActionListener(e -> {
+            AppEtudiantBinome.main(null);
             dispose();
         });
         

@@ -22,7 +22,7 @@ public class EtudiantDAO {
             e.printStackTrace();
         }
     }
-
+    
     /**
      * Cette fonction permet de lister les étudiants présents dans la table Etudiant
      * @return les étudiants présents dans la base de données sous forme d'ArrayList<Etudiant>
@@ -30,7 +30,6 @@ public class EtudiantDAO {
     public List<Etudiant> getAllEtudiants() {
     	/*On crée une liste vide d'étudiant*/
         List<Etudiant> etudiants = new ArrayList<>();
-
         try {
         	/*On parcourt tous les étudiants un à un tout en récupérant le contenu des attributs*/
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Etudiant");

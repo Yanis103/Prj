@@ -6,10 +6,14 @@ import classe.EtudiantBinome;
 import dao.BinomeDAO;
 import dao.EtudiantBinomeDAO;
 import dao.EtudiantDAO;
+import exception.PlusDeDeuxEtudiants;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,9 +26,13 @@ public class AppEtudiantBinome {
     private EtudiantBinomeDAO etudiantBinomeDAO;
     private DefaultTableModel tableModel;
     private final String[] columnNames = {"ID Etudiant", "Nom Etudiant", "Prénom Etudiant", "ID Binôme", "Référence Binôme", "Note Soutenance"};
-
+    private JPanel buttonPanel;
+     
     public AppEtudiantBinome() {
         frame = new JFrame("Gestion des Étudiants et des Binômes");
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         etudiantDAO = new EtudiantDAO();
@@ -48,11 +56,20 @@ public class AppEtudiantBinome {
             data[i][5] = etudiantBinome.getNoteSoutenance();
         }
 
+        // Créer une table (JTable) avec les données et les noms de colonnes spécifiés
         table = new JTable(data, columnNames);
+        table.setBackground(new Color(255, 255, 255));
+        table.setSelectionBackground(new Color(173, 216, 230));
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 16));
+        table.setFont(new Font("Arial", Font.PLAIN, 14)); // Changer la police pour le contenu de la table
+        table.setShowVerticalLines(true); // Afficher les lignes verticales
+        table.setShowHorizontalLines(true); // Afficher les lignes horizontales
+        table.setRowHeight(40); // Définir la hauteur des lignes
         scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        JButton addButton = new JButton("Ajouter");
+        
+        JButton addButton = createStyledButton("Ajouter");
         addButton.addActionListener(e -> {
             List<Etudiant> etudiants = etudiantDAO.getAllEtudiants();
             String[] etudiantNames = etudiants.stream()
@@ -79,13 +96,18 @@ public class AppEtudiantBinome {
                     .filter(binome -> binome.getBinomeReference().equals(selectedBinomeReference))
                     .findFirst()
                     .orElse(null);
-
-           
-
+            
             EtudiantBinome nouvelEtudiantBinome = new EtudiantBinome(selectedEtudiant, selectedBinome, null);
-
-            etudiantBinomeDAO.addEtudiantBinome(nouvelEtudiantBinome);
-
+            try {
+            	etudiantBinomeDAO.addEtudiantBinome(nouvelEtudiantBinome);
+            }catch(SQLException s) {
+            	JOptionPane.showMessageDialog(frame, s.getMessage());
+                return;
+            }
+            catch(PlusDeDeuxEtudiants s) {
+            	JOptionPane.showMessageDialog(frame, s.getMessage());
+                return;
+            }
             // Rafraîchir la table après l'ajout
             refreshTable();
         });
@@ -93,7 +115,7 @@ public class AppEtudiantBinome {
         tableModel = new DefaultTableModel(data, columnNames);
         table.setModel(tableModel);
 
-        JButton noteButton = new JButton("Noter");
+        JButton noteButton = createStyledButton("Noter");
         noteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
@@ -131,7 +153,8 @@ public class AppEtudiantBinome {
         });
 
         
-        JButton deleteButton = new JButton("Supprimer");
+        
+        JButton deleteButton = createStyledButton("Supprimer");
         deleteButton.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
@@ -146,16 +169,41 @@ public class AppEtudiantBinome {
             // Rafraîchir la table après la suppression
             refreshTable();
         });
+        
+        
+        // Créer un bouton avec le texte "Retour au menu principal"
+        JButton retourButton = createStyledButton("Retour au menu principal");
+        // Ajouter un écouteur d'événements (ActionListener) au bouton
+        retourButton.addActionListener(new ActionListener() {
+        	// Lorsque le bouton est cliqué, exécuter les instructions suivantes :
+            // Fermer la fenêtre actuelle
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	 frame.dispose();
+            	 App.main(null);
+            }
+        });
+        
 
-        JPanel buttonPanel = new JPanel();
+        this.buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(noteButton);
         buttonPanel.add(deleteButton);
-        frame.add(buttonPanel, BorderLayout.SOUTH);
-
-        frame.pack();
+        buttonPanel.add(retourButton);
+        frame.add(buttonPanel, BorderLayout.NORTH);
+        frame.setSize(screenWidth, screenHeight);
         frame.setLocationRelativeTo(null); 
         frame.setVisible(true);
+    } 
+    
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBackground(new Color(52, 152, 219));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setMargin(new Insets(10, 20, 10, 20)); // Ajouter des marges pour un aspect visuel plus agréable
+        return button;
     }
 
     private void refreshTable() {
@@ -180,7 +228,15 @@ public class AppEtudiantBinome {
         // Rafraîchir l'affichage
         tableModel.fireTableDataChanged();
     }
-
+    
+    public JFrame getFrame() {
+    	return this.frame;
+    }
+    
+    public JPanel getPanel() {
+    	return this.buttonPanel;
+    }
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(AppEtudiantBinome::new);
     }

@@ -35,7 +35,7 @@ public class AppFormation {
             data[i][0] = formation.getIdFormation();
             data[i][1] = formation.getNomFormation();
             data[i][2] = formation.getPromotion();
-        }
+        } 
         // Créer une table (JTable) avec les données et les noms de colonnes spécifiés
         table = new JTable(data, columnNames);
         table.setBackground(new Color(255, 255, 255));

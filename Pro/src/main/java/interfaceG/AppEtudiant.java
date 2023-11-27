@@ -25,7 +25,6 @@ public class AppEtudiant {
     private DefaultTableModel tableModel;
     private final String[] columnNames = {"ID", "Nom", "Prénom", "Formation"};  // Modifier le nom de la colonne
 
-
     public AppEtudiant() {
     	// Créer une nouvelle fenêtre avec le titre "Gestion des Etudiants"
         frame = new JFrame("Gestion des Etudiants");
@@ -36,11 +35,10 @@ public class AppEtudiant {
         // Dans ce cas, BorderLayout est utilisé, qui divise la fenêtre en cinq zones : Nord, Sud, Est, Ouest, Centre.
         frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(new Color(245, 245, 245));
-        
+          
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
-        frame.setSize(screenWidth, screenHeight);
         
         // Instancier un objet DAO pour l'entité Etudiant
         etudiantDAO = new EtudiantDAO();
@@ -106,7 +104,7 @@ public class AppEtudiant {
                 String prenom = prenomField.getText();
                 String selectedFormationName = (String) formationComboBox.getSelectedItem();
 
-             // Créer un TableRowSorter pour la tableModel
+                // Créer un TableRowSorter pour la tableModel
                 TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
                 table.setRowSorter(sorter);
 
