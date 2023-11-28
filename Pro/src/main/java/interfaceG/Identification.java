@@ -20,7 +20,7 @@ public class Identification extends JFrame {
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
         // Chargement de l'image depuis le fichier (ajustez le chemin selon votre fichier)
-        ImageIcon topImage = new ImageIcon("C:\\Users\\33769\\Desktop\\M1\\S1\\Programmation_objet\\Projet\\Projet_Java_Courant\\Prj\\Pro\\src\\main\\resources\\dauphine-psl.png"); // Ajoutez le chemin de votre image en haut
+        ImageIcon topImage = new ImageIcon(getClass().getResource("/dauphine-psl.png"));
 
         // Utilisation d'un JPanel pour la disposition des composants
         JPanel panel = new JPanel();
