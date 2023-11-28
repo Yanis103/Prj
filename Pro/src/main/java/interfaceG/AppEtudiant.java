@@ -25,7 +25,7 @@ public class AppEtudiant {
     private DefaultTableModel tableModel;
     private final String[] columnNames = {"ID", "Nom", "Prénom", "Formation"};  // Modifier le nom de la colonne
 
-    public AppEtudiant() {
+    public AppEtudiant() { 
     	// Créer une nouvelle fenêtre avec le titre "Gestion des Etudiants"
         frame = new JFrame("Gestion des Etudiants");
         // Définir l'opération par défaut lorsque l'utilisateur ferme la fenêtre
@@ -33,7 +33,7 @@ public class AppEtudiant {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Définir le gestionnaire de disposition (layout manager) de la fenêtre
         // Dans ce cas, BorderLayout est utilisé, qui divise la fenêtre en cinq zones : Nord, Sud, Est, Ouest, Centre.
-        frame.setLayout(new BorderLayout());
+        frame.setLayout(new BorderLayout()); 
         frame.getContentPane().setBackground(Color.WHITE);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();

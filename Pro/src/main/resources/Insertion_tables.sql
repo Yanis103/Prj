@@ -32,5 +32,9 @@ INSERT INTO EtudiantBinome (idEtudiant, idBinome,noteSoutenance) VALUES
 ((SELECT idEtudiant FROM Etudiant WHERE nom = 'Moreau' AND prenom = 'Pierre'), (SELECT idBinome FROM Binome WHERE binomeReference = 'Binome2'),0.0);
 
 
+INSERT INTO Admin (id, motDePasse) VALUES ('admin1', 'motdepasse1');
+INSERT INTO Admin (id, motDePasse) VALUES ('admin2', 'motdepasse2');
+INSERT INTO Admin (id, motDePasse) VALUES ('admin3', 'motdepasse3');
+INSERT INTO Admin (id, motDePasse) VALUES ('admin4', 'motdepasse4');
 
 

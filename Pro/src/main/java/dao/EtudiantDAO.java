@@ -5,7 +5,7 @@ import classe.Formation;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 /**
  * Cette class permet d'effectuer des opérations sur la table Etudiant de la base de données Projet.
  */

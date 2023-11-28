@@ -43,6 +43,11 @@ CREATE TABLE EtudiantBinome (
     PRIMARY KEY (idEtudiant, idBinome)
 );
 
+CREATE TABLE Admin (
+    id VARCHAR(50),
+    motDePasse VARCHAR(50), 
+    PRIMARY KEY (id)
+);
 -- Vue data
 CREATE VIEW dataVue AS
 SELECT
