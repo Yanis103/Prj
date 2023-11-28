@@ -50,6 +50,21 @@ public class AdminDAO {
     	}
     	return false;
     }
+    
+    public void addAdmin(Admin admin) throws SQLException {
+        try {
+            String query = "INSERT INTO Admin (id, motDePasse) VALUES (?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, admin.getIdentifiant());
+                statement.setString(2, admin.getMotDePasse());
+
+                // Exécuter la requête d'insertion
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Erreur lors de l'ajout de l'administrateur : " + e.getMessage());
+        }
+    }
 }
 
  

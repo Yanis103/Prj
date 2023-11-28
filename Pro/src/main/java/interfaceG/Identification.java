@@ -2,9 +2,11 @@ package interfaceG;
 
 import javax.swing.*;
 import dao.AdminDAO;
+import classe.Admin;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class Identification extends JFrame {
     private JLabel titleLabel, idLabel, passwordLabel, topImageLabel;
@@ -80,6 +82,60 @@ public class Identification extends JFrame {
                     App.main(null);
                 } else {
                     JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect");
+                }
+            }
+        });
+        
+        JButton createAccountButton = createStyledButton("Créer compte", "", 46, 204, 113);
+        gbc.gridy = 5; // Vous pouvez ajuster la position du bouton en fonction de votre mise en page
+        panel.add(createAccountButton, gbc);
+
+        createAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Afficher une boîte de dialogue pour la création de compte
+                String newId = JOptionPane.showInputDialog(null, "Nouvel identifiant :");
+
+                // Vérifier si l'utilisateur a appuyé sur "Annuler" ou a fermé la boîte de dialogue
+                if (newId == null) {
+                    return; // L'utilisateur a annulé la création de compte
+                }
+
+                // Afficher une boîte de dialogue pour la saisie du nouveau mot de passe de manière sécurisée
+                JPasswordField passwordField = new JPasswordField();
+                int option = JOptionPane.showOptionDialog(
+                    null,
+                    passwordField,
+                    "Nouveau mot de passe",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    null
+                );
+
+                // Vérifier si l'utilisateur a appuyé sur "OK"
+                if (option == JOptionPane.OK_OPTION) {
+                    // Récupérer le mot de passe saisi de manière sécurisée
+                    char[] passwordChars = passwordField.getPassword();
+                    String newPassword = new String(passwordChars);
+
+                    // Ajouter la logique pour enregistrer le nouvel administrateur dans la base de données
+                    AdminDAO adminDAO = new AdminDAO();
+                    Admin newAdmin = new Admin();
+                    newAdmin.setIdentifiant(newId);
+                    newAdmin.setMotDePasse(newPassword);
+
+                    // Ajouter le nouvel administrateur
+                    try {
+                        adminDAO.addAdmin(newAdmin);
+                        JOptionPane.showMessageDialog(null, "Compte administrateur créé avec succès !");
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Erreur lors de la création du compte administrateur.");
+                    }
+                } else {
+                    // L'utilisateur a appuyé sur "Annuler" ou a fermé la boîte de dialogue
                 }
             }
         });

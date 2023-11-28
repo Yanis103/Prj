@@ -82,16 +82,25 @@ public class AppBinome {
                     .toArray(String[]::new);
             String selectedProjetName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez la Matière du Projet :",
                     "Sélection de la Matière du Projet", JOptionPane.PLAIN_MESSAGE, null, projetNames, projetNames[0]);
+            
+            if (selectedProjetName == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
+           
             Projet selectedProjet = projets.stream()
                     .filter(projet -> projet.getNomMatiere().equals(selectedProjetName))
                     .findFirst()
                     .orElse(null);
+            
+            
             String binomeReference = JOptionPane.showInputDialog(frame, "Référence du binôme :");
-            LocalDate dateRemiseEffective = LocalDate.parse("2023-01-01");
-            if(selectedProjet == null || binomeReference == null || dateRemiseEffective == null ) {
-            	JOptionPane.showMessageDialog(frame, "Un des champs n'a pas été spécifié !");
+            if( binomeReference == null ) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
                 return;
             }
+            LocalDate dateRemiseEffective = LocalDate.parse("2023-01-01");
+           
             Binome nouveauBinome = new Binome(selectedProjet, null, binomeReference, dateRemiseEffective);
             binomeDAO.addBinome(nouveauBinome);
             /*Création des EtudiantBinome et les ajouter dans la base de données*/
@@ -103,6 +112,10 @@ public class AppBinome {
  
             String selectedEtudiantName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez l'Étudiant :",
                     "Sélection de l'Étudiant 1", JOptionPane.PLAIN_MESSAGE, null, etudiantNames, etudiantNames[0]);
+            if( selectedEtudiantName  == null ) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+                return;
+            }
             Etudiant selectedEtudiant = etudiants.stream()
                     .filter(etudiant -> (etudiant.getNom() + " " + etudiant.getPrenom()).equals(selectedEtudiantName))
                     .findFirst()
@@ -126,6 +139,10 @@ public class AppBinome {
 
             String selectedEtudiantName2 = (String) JOptionPane.showInputDialog(frame, "Sélectionnez l'Étudiant :",
                     "Sélection de l'Étudiant 2", JOptionPane.PLAIN_MESSAGE, null, etudiantNames2, etudiantNames2[0]);
+            if( selectedEtudiantName2 == null ) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+                return;
+            }
             Etudiant selectedEtudiant2 = etudiants.stream()
                     .filter(etudiant -> (etudiant.getNom() + " " + etudiant.getPrenom()).equals(selectedEtudiantName2))
                     .findFirst()
@@ -166,13 +183,26 @@ public class AppBinome {
                     .toArray(String[]::new);
             String selectedProjetName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez la Matière du Projet :",
                     "Sélection de la Matière du Projet", JOptionPane.PLAIN_MESSAGE, null, projetNames, projetNames[0]);
+            
+            if( selectedProjetName  == null ) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+                return;
+            }
 
             Projet selectedProjet = projets.stream()
                     .filter(projet -> projet.getNomMatiere().equals(selectedProjetName))
                     .findFirst()
                     .orElse(null);
             String binomeReference = JOptionPane.showInputDialog(frame, "Nouvelle référence du binôme :", binomeToUpdate.getBinomeReference());
+            if( binomeReference   == null ) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+                return;
+            }
             String nouvelleDateStr = JOptionPane.showInputDialog(frame, "Nouvelle Date Remise Effective (YYYY-MM-DD)", binomeToUpdate.getDateRemiseEffective());
+            if( nouvelleDateStr   == null ) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+                return;
+            }
             LocalDate dateRemiseEffective = LocalDate.parse(nouvelleDateStr);
             binomeToUpdate.setProjet(selectedProjet);
             binomeToUpdate.setBinomeReference(binomeReference);
