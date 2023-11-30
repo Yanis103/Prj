@@ -66,32 +66,32 @@ public class App extends JFrame {
         /* Autres actions pour les boutons */
         studentButton.addActionListener(e -> {
             AppEtudiant.main(null);
-            dispose();
+            setVisible(false);
         });
 
         formationButton.addActionListener(e -> {
             AppFormation.main(null);
-            dispose();
+            setVisible(false);
         });
 
         projectButton.addActionListener(e -> {
             AppProjet.main(null);
-            dispose();
+            setVisible(false);
         });
 
         binomeButton.addActionListener(e -> {
             AppBinome.main(null);
-            dispose();
+            setVisible(false);
         });
 
         notationButton.addActionListener(e -> {
             AppEtudiantBinome.main(null);
-            dispose();
+            setVisible(false);
         });
 
         boutonVisualisation.addActionListener(e -> {
             AppVueData.main(null);
-            dispose();
+            setVisible(false);
         });
 
         setVisible(true);

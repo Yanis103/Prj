@@ -205,8 +205,8 @@ public class AppProjet {
             // Fermer la fenêtre actuelle
             @Override
             public void actionPerformed(ActionEvent e) {
-            	 frame.dispose();
             	 App.main(null);
+            	 frame.setVisible(false);
             }
         });
         

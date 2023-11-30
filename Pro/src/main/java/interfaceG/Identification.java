@@ -78,8 +78,8 @@ public class Identification extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 AdminDAO adminDAO = new AdminDAO();
                 if (adminDAO.adminExistant(idField.getText(), new String(passwordField.getPassword()))) {
-                    dispose();
                     App.main(null);
+                    setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect");
                 }
