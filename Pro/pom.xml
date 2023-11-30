@@ -1,29 +1,29 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>test.project</groupId>
-  <artifactId>Pro</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <build>
-	  <plugins>
-		  <plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-					<archive>
-						<manifest>
-							<mainClass>classe.App</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-     
-              <version>3.3.0</version>
-		  </plugin>
-  <plugin>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>test.project</groupId>
+    <artifactId>Pro</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <build>
+    <plugins>
+		<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version> 
+            <configuration>
+                <release>11</release>
+            </configuration>
+        </plugin> 
+        
+        <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-assembly-plugin</artifactId>
+    <version>3.3.0</version>
     <configuration>
         <archive>
             <manifest>
-                <mainClass>classe.App</mainClass>
+                <mainClass>interfaceG.Identification</mainClass>
             </manifest>
         </archive>
         <descriptorRefs>
@@ -32,6 +32,7 @@
     </configuration>
     <executions>
         <execution>
+            <id>make-assembly</id>
             <phase>package</phase>
             <goals>
                 <goal>single</goal>
@@ -39,37 +40,16 @@
         </execution>
     </executions>
 </plugin>
-  </plugins>
-  </build> 
-  
-  
-  <!--
-  <build>
-	  <plugins>
-		  <plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-					<archive>
-						<manifest>
-							<mainClass>classe.App</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-     
-              <version>3.3.0</version>
-		  </plugin>
-	  </plugins>
-  </build> 
-  
-  -->
-	  <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-	  <dependencies>
-    <dependency>
-       <groupId>mysql</groupId>
-       <artifactId>mysql-connector-java</artifactId>
-       <version>8.0.33</version>
-    </dependency>
-  </dependencies>
-  
+</plugins>
+</build>
+
+
+    <!-- Dépendance MySQL Connector/J -->
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+    </dependencies>
 </project>

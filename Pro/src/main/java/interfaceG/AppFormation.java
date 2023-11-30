@@ -54,7 +54,15 @@ public class AppFormation {
         JButton addButton = createStyledButton("Ajouter");
         addButton.addActionListener(e -> {
             String nomFormation = JOptionPane.showInputDialog(frame, "Nom de la Formation:");
+            if (nomFormation == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             String promotion = JOptionPane.showInputDialog(frame, "Promotion:");
+            if (promotion == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             if(nomFormation == null || promotion == null) {
             	JOptionPane.showMessageDialog(frame, "Un des champs n'a pas été spécifié !");
                 return;
@@ -82,7 +90,15 @@ public class AppFormation {
             int idToUpdate = (int) table.getValueAt(selectedRow, 0);
             Formation formationToUpdate = formationDAO.getFormationById(idToUpdate);
             String nomFormation = JOptionPane.showInputDialog(frame, "Nouveau nom de la formation:", formationToUpdate.getNomFormation());
+            if (nomFormation== null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             String promotion = JOptionPane.showInputDialog(frame, "Nouvelle promotion:", formationToUpdate.getPromotion());
+            if (promotion== null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             formationToUpdate.setNomFormation(nomFormation);
             formationToUpdate.setPromotion(promotion);
             formationDAO.updateFormation(formationToUpdate);

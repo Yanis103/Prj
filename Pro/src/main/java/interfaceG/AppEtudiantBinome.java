@@ -78,6 +78,10 @@ public class AppEtudiantBinome {
 
             String selectedEtudiantName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez l'Étudiant :",
                     "Sélection de l'Étudiant", JOptionPane.PLAIN_MESSAGE, null, etudiantNames, etudiantNames[0]);
+            if (selectedEtudiantName == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
 
             Etudiant selectedEtudiant = etudiants.stream()
                     .filter(etudiant -> (etudiant.getNom() + " " + etudiant.getPrenom()).equals(selectedEtudiantName))
@@ -91,6 +95,10 @@ public class AppEtudiantBinome {
 
             String selectedBinomeReference = (String) JOptionPane.showInputDialog(frame, "Sélectionnez le Binôme :",
                     "Sélection du Binôme", JOptionPane.PLAIN_MESSAGE, null, binomeReferences, binomeReferences[0]);
+            if (selectedBinomeReference == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
 
             Binome selectedBinome = binomes.stream()
                     .filter(binome -> binome.getBinomeReference().equals(selectedBinomeReference))

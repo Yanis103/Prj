@@ -137,8 +137,20 @@ public class AppProjet {
         JButton addButton = createStyledButton("Ajouter");
         addButton.addActionListener(e -> {
             String nomMatiere = JOptionPane.showInputDialog(frame, "Nom de la Matière:");
+            if (nomMatiere== null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             String sujet = JOptionPane.showInputDialog(frame, "Sujet du Projet:");
+            if (sujet == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             String dateRemisePrevueString = JOptionPane.showInputDialog(frame, "Date Remise Prévue (YYYY-MM-DD):");
+            if (dateRemisePrevueString == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             if(nomMatiere == null || sujet == null || dateRemisePrevueString == null ) {
             	JOptionPane.showMessageDialog(frame, "Un des champs n'a pas été spécifié !");
                 return;
@@ -169,8 +181,20 @@ public class AppProjet {
             int idToUpdate = (int) table.getValueAt(selectedRow, 0);
             Projet projetToUpdate = projetDAO.getProjetById(idToUpdate);
             String nomMatiere = JOptionPane.showInputDialog(frame, "Nouveau nom de la matière:", projetToUpdate.getNomMatiere());
+            if (nomMatiere == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             String sujet = JOptionPane.showInputDialog(frame, "Nouveau sujet du projet:", projetToUpdate.getSujet());
+            if (sujet== null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             String dateRemisePrevueString = JOptionPane.showInputDialog(frame, "Nouvelle date Remise Prévue (YYYY-MM-DD):");
+            if (dateRemisePrevueString== null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             LocalDate dateRemisePrevue = LocalDate.parse(dateRemisePrevueString);
             projetToUpdate.setNomMatiere(nomMatiere);
             projetToUpdate.setSujet(sujet);

@@ -157,8 +157,16 @@ public class AppEtudiant {
         addButton.addActionListener(e -> {
         	// Demander à l'utilisateur le nom de l'étudiant
             String nom = JOptionPane.showInputDialog(frame, "Nom de l'étudiant:");
+            if (nom  == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             // Demander à l'utilisateur le nom de l'étudiant
             String prenom = JOptionPane.showInputDialog(frame, "Prénom de l'étudiant:");
+            if (prenom == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             // Obtenir la liste de toutes les formations depuis la base de données
             List<Formation> formations = formationDAO.getAllFormations(); 
             // Convertir la liste de formations en un tableau de noms de formations
@@ -168,6 +176,10 @@ public class AppEtudiant {
             // Demander à l'utilisateur de sélectionner le nom de la formation dans une boîte de dialogue
             String selectedFormationName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez le Nom de la Formation :",
                     "Sélection du Nom de la Formation", JOptionPane.PLAIN_MESSAGE, null, formationNames, formationNames[0]);
+            if (selectedFormationName  == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             // Rechercher la formation sélectionnée dans la liste des formations
             Formation selectedFormation = formations.stream()
                     .filter(formation -> formation.getNomFormation().equals(selectedFormationName))
@@ -212,8 +224,16 @@ public class AppEtudiant {
             Etudiant etudiantToUpdate = etudiantDAO.getEtudiantById(idToUpdate);
             // Demander à l'utilisateur le nouveau nom de l'étudiant avec une boîte de dialogue
             String nom = JOptionPane.showInputDialog(frame, "Nouveau nom de l'étudiant:", etudiantToUpdate.getNom());
+            if (nom  == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             // Demander à l'utilisateur le nouveau prénom de l'étudiant avec une boîte de dialogue
             String prenom = JOptionPane.showInputDialog(frame, "Nouveau prénom de l'étudiant:", etudiantToUpdate.getPrenom());
+            if (prenom  == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             // Obtenir la liste de toutes les formations depuis la base de données
             List<Formation> formations = formationDAO.getAllFormations();
             // Convertir la liste de formations en un tableau de noms de formations
@@ -223,6 +243,10 @@ public class AppEtudiant {
             // Demander à l'utilisateur de sélectionner le nom de la formation dans une boîte de dialogue
             String selectedFormationName = (String) JOptionPane.showInputDialog(frame, "Sélectionnez le Nom de la Formation :",
                     "Sélection du Nom de la Formation", JOptionPane.PLAIN_MESSAGE, null, formationNames, formationNames[0]);
+            if (selectedFormationName  == null) {
+            	JOptionPane.showMessageDialog(frame, "Opération annulée par l'utilisateur.");
+            	return;
+            }
             // Rechercher la formation sélectionnée dans la liste des formations
             Formation selectedFormation = formations.stream()
                     .filter(formation -> formation.getNomFormation().equals(selectedFormationName))
