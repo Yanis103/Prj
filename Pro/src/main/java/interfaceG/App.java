@@ -25,14 +25,23 @@ public class App extends JFrame {
         topPanel.add(logoutButton, BorderLayout.EAST);
 
         // Utilisation d'une police plus élégante pour le titre
-        titleLabel = new JLabel("Gestion des Projets Étudiants");
+        titleLabel = new JLabel("Gestion des Projets Étudiants                     ");
         titleLabel.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 40));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setForeground(new Color(52, 152, 219));
+
+        // Ajout du JPanel en haut de la fenêtre
+        // Créez un JLabel pour l'image
+        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/dauphin2.jpg"));
+    	// Redimensionne l'image selon les besoins (par exemple, 800x200 pixels) en utilisant un algorithme de lissage
+    	Image image = imageIcon.getImage().getScaledInstance(400, 100, Image.SCALE_SMOOTH);
+    	ImageIcon resizedTopImage = new ImageIcon(image);
+        JLabel imageLabel = new JLabel(resizedTopImage);
+        // Ajoutez l'imageLabel au topPanel avant le titleLabel
+        topPanel.add(imageLabel, BorderLayout.WEST);
         topPanel.add(titleLabel, BorderLayout.CENTER);
         // Ajout du JPanel en haut de la fenêtre
         add(topPanel, BorderLayout.NORTH);
-
         setLayout(new GridLayout(7, 1, 10, 10)); // Ajout de marges entre les composants
         getContentPane().setBackground(Color.WHITE);
 
