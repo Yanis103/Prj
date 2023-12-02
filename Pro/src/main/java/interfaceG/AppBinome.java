@@ -34,10 +34,8 @@ public class AppBinome {
     public AppBinome() {
     	/*	Création de la Frame	*/
         frame = new JFrame("Gestion des Binômes");
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().setBackground(new Color(245, 245, 245));
         
         binomeDAO = new BinomeDAO();
@@ -280,7 +278,6 @@ public class AppBinome {
         buttonPanel.add(deleteButton);
         buttonPanel.add(retourButton);
         frame.add(buttonPanel, BorderLayout.NORTH);
-        frame.setSize(screenWidth, screenHeight); // Utiliser setSize au lieu de pack
         frame.setLocationRelativeTo(null); // Centrer la fenêtre*
         frame.setVisible(true);
     }

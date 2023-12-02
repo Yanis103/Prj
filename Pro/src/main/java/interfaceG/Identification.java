@@ -13,57 +13,68 @@ public class Identification extends JFrame {
     private JTextField idField;
     private JPasswordField passwordField;
     private JButton loginButton;
-
+    
+    
     public Identification() {
-        setTitle("Identification");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true); // Permet le redimensionnement de la fenêtre
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
-        // Chargement de l'image depuis le fichier (ajustez le chemin selon votre fichier)
-        ImageIcon topImage = new ImageIcon(getClass().getResource("/dauphine-psl.png"));
-
-        // Utilisation d'un JPanel pour la disposition des composants
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        panel.setBackground(Color.WHITE);
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        // Ajout de l'image en haut
-        topImageLabel = new JLabel(topImage);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        panel.add(topImageLabel, gbc);
+    	// Définit le titre de la fenêtre
+    	setTitle("Identification");
+    	// Indique comment la fenêtre doit réagir lorsque l'utilisateur ferme la fenêtre
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	// Maximise la fenêtre pour occuper tout l'écran
+    	setExtendedState(JFrame.MAXIMIZED_BOTH);
+    	// Permet le redimensionnement de la fenêtre par l'utilisateur
+    	setResizable(true);
+    	
+    	// Charge une image depuis le fichier. Assurez-vous d'ajuster le chemin selon votre fichier.
+    	ImageIcon topImage = new ImageIcon(getClass().getResource("/dauphine-1.jpg"));
+    	// Redimensionne l'image selon les besoins (par exemple, 800x200 pixels) en utilisant un algorithme de lissage
+    	Image image = topImage.getImage().getScaledInstance(990, 133, Image.SCALE_SMOOTH);
+    	ImageIcon resizedTopImage = new ImageIcon(image);
+    	// Utilise un JPanel pour la disposition des composants dans la fenêtre
+    	JPanel panel = new JPanel();
+    	panel.setLayout(new GridBagLayout());
+    	panel.setBackground(Color.WHITE);
+    	// Configuration des contraintes de disposition des composants
+    	GridBagConstraints gbc = new GridBagConstraints();
+    	gbc.insets = new Insets(10, 10, 10, 10); // Marges entre les composants
+    	gbc.fill = GridBagConstraints.HORIZONTAL; // Les composants s'étendent horizontalement
+    	// Ajoute l'image redimensionnée en haut du panel
+    	topImageLabel = new JLabel(resizedTopImage);
+    	gbc.gridx = 0;
+    	gbc.gridy = -1;
+    	gbc.gridwidth = 2; // L'image occupe deux colonnes dans la grille
+    	panel.add(topImageLabel, gbc);
 
         // Utilisation d'une police plus élégante pour le titre
         titleLabel = new JLabel("Identification");
-        titleLabel.setFont(new Font("Verdana", Font.BOLD, 28));
+        titleLabel.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 40));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setForeground(new Color(52, 152, 219));
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         panel.add(titleLabel, gbc);
 
-        idLabel = new JLabel("Identifiant:");
+        idLabel = new JLabel("Identifiant");
+        idLabel.setFont(new Font("Verdana", Font.BOLD,17));
         gbc.gridy = 2;
         gbc.gridwidth = 1;
         panel.add(idLabel, gbc);
 
         idField = new JTextField();
+        Dimension preferredSize = new Dimension(200, 30);
+        idField.setPreferredSize(preferredSize);
         gbc.gridx = 1;
         panel.add(idField, gbc);
 
-        passwordLabel = new JLabel("Mot de passe:");
+
+        passwordLabel = new JLabel("Mot de passe");
+        passwordLabel.setFont(new Font("Verdana", Font.BOLD,17));
         gbc.gridx = 0;
         gbc.gridy = 3;
         panel.add(passwordLabel, gbc);
 
         passwordField = new JPasswordField();
+        passwordField.setPreferredSize(preferredSize);
         gbc.gridx = 1;
         panel.add(passwordField, gbc);
 
@@ -142,7 +153,6 @@ public class Identification extends JFrame {
 
         // Ajout du JPanel à la fenêtre
         add(panel);
-        setSize(screenWidth, screenHeight);
         setLocationRelativeTo(null);
         setVisible(true);
     }

@@ -21,10 +21,7 @@ public class AppVueData {
         public AppVueData() {
             frame = new JFrame("Visualisation des notes");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            int screenWidth = (int) screenSize.getWidth();
-            int screenHeight = (int) screenSize.getHeight();
-            frame.setSize(screenWidth, screenHeight-50);
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frame.setLocationRelativeTo(null);
 
             vueDataDAO = new VueDataDAO();

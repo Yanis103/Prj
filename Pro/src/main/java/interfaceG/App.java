@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 public class App extends JFrame {
     private JButton studentButton, formationButton, projectButton, binomeButton, notationButton;
     private JLabel titleLabel;
-
     public App() {
         setTitle("Gestion des Projets Étudiants");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,11 +26,10 @@ public class App extends JFrame {
 
         // Utilisation d'une police plus élégante pour le titre
         titleLabel = new JLabel("Gestion des Projets Étudiants");
-        titleLabel.setFont(new Font("Verdana", Font.BOLD, 36));
+        titleLabel.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 40));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setForeground(new Color(52, 152, 219));
         topPanel.add(titleLabel, BorderLayout.CENTER);
-
         // Ajout du JPanel en haut de la fenêtre
         add(topPanel, BorderLayout.NORTH);
 
@@ -59,7 +57,7 @@ public class App extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Identification.main(null);
-                dispose();
+                setVisible(false);
             }
         });
 
@@ -105,7 +103,7 @@ public class App extends JFrame {
         // Définir le label comme composant du bouton
         button.add(label);
 
-        button.setFont(new Font("Arial", Font.BOLD, 20));
+        button.setFont(new Font("Arial", Font.BOLD, 30));
         button.setBackground(new Color(r, g, b)); // Couleur de fond
         button.setForeground(Color.WHITE); // Couleur du texte
         button.setFocusPainted(false); // Désactiver la mise en évidence du focus

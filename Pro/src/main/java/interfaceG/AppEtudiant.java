@@ -31,13 +31,11 @@ public class AppEtudiant {
         // Définir l'opération par défaut lorsque l'utilisateur ferme la fenêtre
         // Dans ce cas, l'application sera fermée
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         // Définir le gestionnaire de disposition (layout manager) de la fenêtre
         // Dans ce cas, BorderLayout est utilisé, qui divise la fenêtre en cinq zones : Nord, Sud, Est, Ouest, Centre.
         frame.setLayout(new BorderLayout()); 
         frame.getContentPane().setBackground(Color.WHITE);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
         
         // Instancier un objet DAO pour l'entité Etudiant
         etudiantDAO = new EtudiantDAO();
@@ -312,7 +310,6 @@ public class AppEtudiant {
         buttonPanel.add(boutonFiltrer);
         buttonPanel.add(retourButton);
         frame.add(buttonPanel, BorderLayout.NORTH);
-        frame.setSize(screenWidth, screenHeight); // Utiliser setSize au lieu de pack
         frame.setLocationRelativeTo(null); // Centrer la fenêtre
         frame.setVisible(true);
 

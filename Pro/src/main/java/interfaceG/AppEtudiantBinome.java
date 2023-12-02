@@ -34,6 +34,7 @@ public class AppEtudiantBinome {
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         etudiantDAO = new EtudiantDAO();
         binomeDAO = new BinomeDAO();
