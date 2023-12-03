@@ -20,6 +20,9 @@ Si vous souhaiter utiliser une base de données en local il suffit de suivre les
 2. Créer la base de données en utilisant les commandes SQL présentes dans les fichiers :
    - Pro\src\main\resources\Création_tables.sql
    - Pro\src\main\resources\Insertions_tables.sql
+   Commandes :
+   - ```sql source Création_tables.sql
+   - ```sql source Insertions_tables.sql  
 
 3. Modifier les identifiants de connexion à la base de données dans :
    - Pro\src\main\java\dao\Connexion.java
