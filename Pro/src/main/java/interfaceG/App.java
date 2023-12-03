@@ -8,7 +8,10 @@ import java.awt.event.ActionListener;
 public class App extends JFrame {
     private JButton studentButton, formationButton, projectButton, binomeButton, notationButton;
     private JLabel titleLabel;
+
+    // Constructeur de la classe App
     public App() {
+        // Configuration de la fenêtre principale
         setTitle("Gestion des Projets Étudiants");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximise la fenêtre
@@ -31,19 +34,17 @@ public class App extends JFrame {
         titleLabel.setForeground(new Color(52, 152, 219));
 
         // Ajout du JPanel en haut de la fenêtre
-        // Créez un JLabel pour l'image
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("/dauphin2.jpg"));
-    	// Redimensionne l'image selon les besoins (par exemple, 800x200 pixels) en utilisant un algorithme de lissage
-    	Image image = imageIcon.getImage().getScaledInstance(400, 100, Image.SCALE_SMOOTH);
-    	ImageIcon resizedTopImage = new ImageIcon(image);
+        Image image = imageIcon.getImage().getScaledInstance(400, 100, Image.SCALE_SMOOTH);
+        ImageIcon resizedTopImage = new ImageIcon(image);
         JLabel imageLabel = new JLabel(resizedTopImage);
-        // Ajoutez l'imageLabel au topPanel avant le titleLabel
         topPanel.add(imageLabel, BorderLayout.WEST);
         topPanel.add(titleLabel, BorderLayout.CENTER);
-        // Ajout du JPanel en haut de la fenêtre
         add(topPanel, BorderLayout.NORTH);
-        setLayout(new GridLayout(7, 1, 10, 10)); // Ajout de marges entre les composants
-        getContentPane().setBackground(Color.WHITE);
+
+        // Création d'un panneau pour les boutons
+        JPanel buttonsPanel = new JPanel(new GridLayout(7, 1, 10, 10));
+        buttonsPanel.setBackground(Color.WHITE);
 
         // Utilisation de boutons stylisés avec des couleurs vives
         studentButton = createStyledButton("Étudiants", "", 52, 152, 219);
@@ -53,15 +54,18 @@ public class App extends JFrame {
         notationButton = createStyledButton("Notation", "", 52, 152, 219);
         JButton boutonVisualisation = createStyledButton("Visualisation des notes", "", 52, 152, 219);
 
-        // Ajout des composants à la fenêtre
-        add(studentButton);
-        add(formationButton);
-        add(projectButton);
-        add(binomeButton);
-        add(notationButton);
-        add(boutonVisualisation);
+        // Ajout des composants au panneau des boutons
+        buttonsPanel.add(studentButton);
+        buttonsPanel.add(formationButton);
+        buttonsPanel.add(projectButton);
+        buttonsPanel.add(binomeButton);
+        buttonsPanel.add(notationButton);
+        buttonsPanel.add(boutonVisualisation);
 
-        /* Action pour le bouton Déconnexion */
+        // Ajout du panneau des boutons au centre de la fenêtre
+        add(buttonsPanel, BorderLayout.CENTER);
+
+        // Action pour le bouton Déconnexion
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,35 +74,29 @@ public class App extends JFrame {
             }
         });
 
-        /* Autres actions pour les boutons */
+        // Autres actions pour les boutons
         studentButton.addActionListener(e -> {
             AppEtudiant.main(null);
-            setVisible(false);
         });
 
         formationButton.addActionListener(e -> {
             AppFormation.main(null);
-            setVisible(false);
         });
 
         projectButton.addActionListener(e -> {
             AppProjet.main(null);
-            setVisible(false);
         });
 
         binomeButton.addActionListener(e -> {
             AppBinome.main(null);
-            setVisible(false);
         });
 
         notationButton.addActionListener(e -> {
             AppEtudiantBinome.main(null);
-            setVisible(false);
         });
 
         boutonVisualisation.addActionListener(e -> {
             AppVueData.main(null);
-            setVisible(false);
         });
 
         setVisible(true);
@@ -109,17 +107,17 @@ public class App extends JFrame {
         JButton button = new JButton(text);
         ImageIcon icon = new ImageIcon(iconPath);
         JLabel label = new JLabel(icon, JLabel.LEFT);
-        // Définir le label comme composant du bouton
         button.add(label);
 
         button.setFont(new Font("Arial", Font.BOLD, 30));
-        button.setBackground(new Color(r, g, b)); // Couleur de fond
-        button.setForeground(Color.WHITE); // Couleur du texte
-        button.setFocusPainted(false); // Désactiver la mise en évidence du focus
+        button.setBackground(new Color(r, g, b));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
 
         return button;
     }
 
+    // Point d'entrée de l'application
     public static void main(String[] args) {
         SwingUtilities.invokeLater(App::new);
     }

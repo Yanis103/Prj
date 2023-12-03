@@ -191,8 +191,7 @@ public class AppEtudiantBinome {
             	 etudiantBinomeDAO.closeConnection();
             	 binomeDAO.closeConnection();
             	 etudiantDAO.closeConnection();
-            	 frame.dispose();
-            	 App.main(null);
+            	 frame.setVisible(false);
             }
         });
         

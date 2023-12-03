@@ -266,7 +266,6 @@ public class AppBinome {
             	binomeDAO.closeConnection();
             	etudiantDAO.closeConnection();
             	projetDAO.closeConnection();
-            	App.main(null);
             	frame.setVisible(false);
             	 
             }

@@ -67,7 +67,6 @@ public class AppVueData {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                 	vueDataDAO.closeConnection();
-                	App.main(null);
                 	frame.setVisible(false);	 
                 }
                 

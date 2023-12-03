@@ -296,7 +296,6 @@ public class AppEtudiant {
             public void actionPerformed(ActionEvent e) {
             	etudiantDAO.closeConnection();
             	formationDAO.closeConnection();
-            	App.main(null);
             	frame.setVisible(false);
             	 
             }

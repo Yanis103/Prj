@@ -128,7 +128,6 @@ public class AppFormation {
             @Override
             public void actionPerformed(ActionEvent e) {
             	 formationDAO.closeConnection();
-            	 App.main(null);
             	 frame.setVisible(false);
             }
         });
