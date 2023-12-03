@@ -11,7 +11,7 @@ Si vous souhaitez utiliser la base de données hébergée sur un serveur gratuit
 Si l'outil make est installé sur votre système : 
     make run
 Sinon : 
-    java -jar LHADJ-MAHMEL.jar
+    java -jar LHADJ-MEHMEL.jar
 
 ### Utilisation de la Base de Données Locale
 Si vous souhaiter utiliser une base de données en local il suffit de suivre les instrcutions suivante :
