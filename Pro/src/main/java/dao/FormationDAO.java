@@ -156,4 +156,15 @@ public class FormationDAO {
             e.printStackTrace();
         }
     }
+    
+    public void closeConnection() {
+    	if (this.connection != null) {
+   	        try {
+   	            this.connection.close();
+   	        } catch (SQLException e) {
+   	            e.printStackTrace();
+   	        }
+   	 }
+   }
+
 }

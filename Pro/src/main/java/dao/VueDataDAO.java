@@ -115,4 +115,14 @@ public class VueDataDAO {
 	
 	    return formations;
 	}
+	
+	public void closeConnection() {
+     	 if (this.connection != null) {
+     	        try {
+     	            connection.close();
+     	        } catch (SQLException e) {
+     	            e.printStackTrace();
+     	        }
+     	 }
+   }
 }

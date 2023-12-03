@@ -48,12 +48,12 @@ public class EtudiantBinomeDAO {
                 int idBinome = resultSet.getInt("idBinome");
                 BinomeDAO binomeDAO = new BinomeDAO();
                 Binome binome = binomeDAO.getBinomeById(idBinome);
-
                 etudiantBinome.setEtudiant(etudiant);
                 etudiantBinome.setBinome(binome);
                 etudiantBinome.setNoteSoutenance((Double) resultSet.getObject("noteSoutenance"));
-
                 etudiantBinomes.add(etudiantBinome);
+                binomeDAO.closeConnection();
+                etudiantDAO.closeConnection();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -165,8 +165,8 @@ public class EtudiantBinomeDAO {
                 int idFormation = resultSet.getInt("idFormation");
                 FormationDAO formationDAO = new FormationDAO();
                 Formation formation = formationDAO.getFormationById(idFormation);
-
                 etudiant.setFormation(formation);
+                formationDAO.closeConnection();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -190,12 +190,11 @@ public class EtudiantBinomeDAO {
                 int idProjet = resultSet.getInt("idProjet");
                 ProjetDAO projetDAO = new ProjetDAO();
                 Projet projet = projetDAO.getProjetById(idProjet);
-
                 binome.setProjet(projet);
                 binome.setNoteRapport(resultSet.getDouble("noteRapport"));
                 binome.setBinomeReference(resultSet.getString("binomeReference"));
                 binome.setDateRemiseEffective(resultSet.getDate("dateRemiseEffective").toLocalDate());
-
+                projetDAO.closeConnection();
                
             }
         } catch (SQLException e) {
@@ -222,6 +221,16 @@ public class EtudiantBinomeDAO {
         }
     	return etudiants;
     }
+    
+    public void closeConnection() {
+    	 if (this.connection != null) {
+    	        try {
+    	            connection.close();
+    	        } catch (SQLException e) {
+    	            e.printStackTrace();
+    	        }
+    	 }
+  }
     
 
 }

@@ -37,7 +37,6 @@ public class AppBinome {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().setBackground(new Color(245, 245, 245));
-        
         binomeDAO = new BinomeDAO();
         projetDAO = new ProjetDAO();
         etudiantDAO = new EtudiantDAO();
@@ -263,6 +262,10 @@ public class AppBinome {
             // Fermer la fenêtre actuelle
             @Override
             public void actionPerformed(ActionEvent e) {
+            	etudiantBinomeDAO.closeConnection();
+            	binomeDAO.closeConnection();
+            	etudiantDAO.closeConnection();
+            	projetDAO.closeConnection();
             	App.main(null);
             	frame.setVisible(false);
             	 

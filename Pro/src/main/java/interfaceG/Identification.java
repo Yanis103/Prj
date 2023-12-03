@@ -89,9 +89,11 @@ public class Identification extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 AdminDAO adminDAO = new AdminDAO();
                 if (adminDAO.adminExistant(idField.getText(), new String(passwordField.getPassword()))) {
-                    App.main(null);
+                    adminDAO.closeConnection();
+                	App.main(null);
                     setVisible(false);
                 } else {
+                	adminDAO.closeConnection();
                     JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect");
                 }
             }
@@ -141,7 +143,9 @@ public class Identification extends JFrame {
                     try {
                         adminDAO.addAdmin(newAdmin);
                         JOptionPane.showMessageDialog(null, "Compte administrateur créé avec succès !");
+                        adminDAO.closeConnection();
                     } catch (SQLException e1) {
+                    	adminDAO.closeConnection();
                         e1.printStackTrace();
                         JOptionPane.showMessageDialog(null, "Erreur lors de la création du compte administrateur.");
                     }

@@ -42,15 +42,12 @@ public class BinomeDAO {
                 int idProjet = resultSet.getInt("idProjet");
                 ProjetDAO projetDAO = new ProjetDAO();
                 Projet projet = projetDAO.getProjetById(idProjet);
-
                 binome.setProjet(projet);
                 binome.setNoteRapport((Double) resultSet.getObject("noteRapport"));
                 binome.setBinomeReference(resultSet.getString("binomeReference"));
                 binome.setDateRemiseEffective(resultSet.getDate("dateRemiseEffective").toLocalDate());
-
-                
-
                 binomes.add(binome);
+                projetDAO.closeConnection();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,12 +76,11 @@ public class BinomeDAO {
                 int idProjet = resultSet.getInt("idProjet");
                 ProjetDAO projetDAO = new ProjetDAO();
                 Projet projet = projetDAO.getProjetById(idProjet);
-
                 binome.setProjet(projet);
                 binome.setNoteRapport((Double) resultSet.getObject("noteRapport"));
                 binome.setBinomeReference(resultSet.getString("binomeReference"));
                 binome.setDateRemiseEffective(resultSet.getDate("dateRemiseEffective").toLocalDate());
-
+                projetDAO.closeConnection();
                
             }
         } catch (SQLException e) {
@@ -172,4 +168,14 @@ public class BinomeDAO {
             e.printStackTrace();
         }
     }
+    
+    public void closeConnection() {
+     	 if (this.connection != null) {
+     	        try {
+     	            connection.close();
+     	        } catch (SQLException e) {
+     	            e.printStackTrace();
+     	        }
+     	 }
+   }
 }

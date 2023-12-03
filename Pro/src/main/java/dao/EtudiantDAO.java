@@ -47,8 +47,8 @@ public class EtudiantDAO {
                 /*On récupère la formation dont l'identifiant est idFormation*/
                 Formation formation = formationDAO.getFormationById(idFormation);
                 etudiant.setFormation(formation);
-                
                 etudiants.add(etudiant);
+                formationDAO.closeConnection();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,8 +78,8 @@ public class EtudiantDAO {
                 int idFormation = resultSet.getInt("idFormation");
                 FormationDAO formationDAO = new FormationDAO();
                 Formation formation = formationDAO.getFormationById(idFormation);
-
                 etudiant.setFormation(formation);
+                formationDAO.closeConnection();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,6 +152,16 @@ public class EtudiantDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void closeConnection() {
+    	 if (this.connection != null) {
+    	        try {
+    	            this.connection.close();
+    	        } catch (SQLException e) {
+    	            e.printStackTrace();
+    	        }
+    	 }
     }
 
     

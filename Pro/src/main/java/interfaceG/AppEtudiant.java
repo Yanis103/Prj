@@ -294,6 +294,8 @@ public class AppEtudiant {
             // Fermer la fenêtre actuelle
             @Override
             public void actionPerformed(ActionEvent e) {
+            	etudiantDAO.closeConnection();
+            	formationDAO.closeConnection();
             	App.main(null);
             	frame.setVisible(false);
             	 

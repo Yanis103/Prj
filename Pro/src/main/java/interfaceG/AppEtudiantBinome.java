@@ -188,6 +188,9 @@ public class AppEtudiantBinome {
             // Fermer la fenêtre actuelle
             @Override
             public void actionPerformed(ActionEvent e) {
+            	 etudiantBinomeDAO.closeConnection();
+            	 binomeDAO.closeConnection();
+            	 etudiantDAO.closeConnection();
             	 frame.dispose();
             	 App.main(null);
             }

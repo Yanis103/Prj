@@ -135,4 +135,14 @@ public class ProjetDAO {
             e.printStackTrace();
         }
     }
+    
+    public void closeConnection() {
+      	 if (this.connection != null) {
+      	        try {
+      	            connection.close();
+      	        } catch (SQLException e) {
+      	            e.printStackTrace();
+      	        }
+      	 }
+    }
 }

@@ -46,10 +46,19 @@
 
     <!-- Dépendance MySQL Connector/J -->
     <dependencies>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
-        </dependency>
-    </dependencies>
+    <!-- Dépendance MySQL Connector/J -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.33</version>
+    </dependency>
+
+    <!-- Dépendance MariaDB Connector/J -->
+    <dependency>
+        <groupId>org.mariadb.jdbc</groupId>
+        <artifactId>mariadb-java-client</artifactId>
+        <version>2.7.3</version>
+    </dependency>
+</dependencies>
+
 </project>

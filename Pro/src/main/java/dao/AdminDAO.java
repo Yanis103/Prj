@@ -65,6 +65,16 @@ public class AdminDAO {
             throw new SQLException("Erreur lors de l'ajout de l'administrateur : " + e.getMessage());
         }
     }
+    
+    public void closeConnection() {
+    	 if (this.connection != null) {
+    	        try {
+    	            this.connection.close();
+    	        } catch (SQLException e) {
+    	            e.printStackTrace();
+    	        }
+    	 }
+  }
 }
 
  
