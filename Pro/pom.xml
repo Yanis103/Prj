@@ -6,59 +6,60 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <build>
-    <plugins>
-		<plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version> 
-            <configuration>
-                <release>11</release>
-            </configuration>
-        </plugin> 
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version> 
+                <configuration>
+                    <release>11</release>
+                    <!-- Ajoutez la configuration pour spécifier l'encodage -->
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin> 
         
-        <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-assembly-plugin</artifactId>
-    <version>3.3.0</version>
-    <configuration>
-        <archive>
-            <manifest>
-                <mainClass>interfaceG.Identification</mainClass>
-            </manifest>
-        </archive>
-        <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-        </descriptorRefs>
-    </configuration>
-    <executions>
-        <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-                <goal>single</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-</plugins>
-</build>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>interfaceG.Identification</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <!-- Dépendance MySQL Connector/J -->
     <dependencies>
-    <!-- Dépendance MySQL Connector/J -->
-    <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>8.0.33</version>
-    </dependency>
+        <!-- Dépendance MySQL Connector/J -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
 
-    <!-- Dépendance MariaDB Connector/J -->
-    <dependency>
-        <groupId>org.mariadb.jdbc</groupId>
-        <artifactId>mariadb-java-client</artifactId>
-        <version>2.7.3</version>
-    </dependency>
-</dependencies>
+        <!-- Dépendance MariaDB Connector/J -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+    </dependencies>
 
 </project>
